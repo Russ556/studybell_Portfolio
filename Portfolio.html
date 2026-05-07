@@ -116,8 +116,9 @@
   }
   .hdr-inner{
     max-width:var(--maxw); margin:0 auto; padding:0 var(--pad);
-    height:100%; display:flex; align-items:center; justify-content:space-between; gap:24px;
+    height:100%; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px;
   }
+  .hdr-inner > .nav{ justify-self:center; }
   .brand{ display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-0.01em; }
   .brand-mark{
     width:22px; height:22px; border-radius:6px;
@@ -384,7 +385,7 @@
     margin-bottom:48px;
   }
   .section-num{
-    font-family:'JetBrains Mono',monospace; font-size:12px;
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
     color:var(--pop); letter-spacing:0.08em;
   }
   .section-title{
@@ -395,6 +396,12 @@
   .section-desc{
     font-size:16px; color:var(--fg-2); line-height:1.6;
     align-self:end; max-width:520px;
+  }
+  .section-head--stack{ grid-template-columns:1fr; gap:16px; }
+  .section-title--bold{ font-weight:700; }
+  .section-title--bold em{ font-weight:700; }
+  .section-desc--inline{
+    margin:14px 0 0; align-self:auto; max-width:780px;
   }
 
   /* ────────── EXPERIENCE / EDU LIST ────────── */
@@ -549,8 +556,17 @@
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3);
     text-transform:uppercase; letter-spacing:0.06em;
   }
+  .proj-year{
+    display:inline-flex; align-items:center;
+    padding:4px 12px; border-radius:999px;
+    font-family:'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,sans-serif;
+    font-size:11.5px; font-weight:600; letter-spacing:0;
+    color:var(--pop); text-transform:none;
+    background:color-mix(in oklch, var(--pop) 12%, transparent);
+    border:1px solid color-mix(in oklch, var(--pop) 35%, transparent);
+  }
   .proj-title{ font-size:20px; font-weight:600; letter-spacing:-0.015em; line-height:1.25; }
-  .proj-desc{ font-size:14px; color:var(--fg-2); line-height:1.55; flex:1; }
+  .proj-desc{ font-size:14px; color:var(--fg-2); line-height:1.55; flex:1; white-space:pre-line; }
   .proj-stack{ display:flex; flex-wrap:wrap; gap:5px; }
   .proj-foot{
     display:flex; align-items:center; justify-content:space-between;
@@ -562,6 +578,8 @@
     display:grid; place-items:center; transition:all .2s ease;
   }
   .proj-card:hover .proj-arrow{ background:var(--pop); color:#fff; border-color:var(--pop); transform:rotate(-45deg); }
+  .proj-foot-label{ transition:color .2s ease, font-weight .2s ease, transform .2s ease; }
+  .proj-card:hover .proj-foot-label{ color:var(--pop); font-weight:600; transform:translateX(2px); }
 
   /* density */
   body[data-density="dense"] .section{ padding-top:80px; }
@@ -1095,6 +1113,19 @@
   .ms-sec-lead{
     margin:0 0 22px;
     font-size:17.5px; line-height:1.7; color:var(--fg-2);
+    white-space:pre-line;
+  }
+  .ms-sec-lead-list{
+    list-style:none; margin:0 0 22px; padding:0;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .ms-sec-lead-list li{
+    position:relative; padding-left:22px;
+    font-size:17.5px; line-height:1.7; color:var(--fg-2);
+  }
+  .ms-sec-lead-list li::before{
+    content:""; position:absolute; left:0; top:14px;
+    width:12px; height:1px; background:var(--pop);
   }
 
   /* Section image (본문 폭 풀로) + 캡션 */
@@ -1530,34 +1561,106 @@
   };
 
   const TIMELINE = [
-  { cat: "experience", date: "2024.06 – 현재", title: "Product Operations Intern", org: "스타트업 / B2B SaaS",
-    desc: "운영 자동화 워크플로 설계와 사내 LLM 도구 도입을 주도. 반복 업무를 시간 단위로 줄였습니다.",
-    bullets: ["Notion·Slack·Linear 데이터 흐름을 매핑해 중복 입력 70% 감소", "Claude API + Google Sheets로 고객 피드백 자동 분류 파이프라인 구축", "주간 리포트 작성 자동화 — 6시간 → 30분"],
-    skills: ["Python", "Claude API", "Notion", "Linear"] },
-  { cat: "experience", date: "2023.09 – 2024.05", title: "Marketing Assistant", org: "OO 에이전시",
-    desc: "디지털 캠페인 백오피스에서 데이터·카피·소재 운영을 담당했습니다.",
-    bullets: ["GA4 / Looker 대시보드를 직접 셋업해 의사결정 사이클 단축", "AI 카피 보조 워크플로 도입으로 A/B 자산 생산량 3배"],
-    skills: ["GA4", "Looker", "Figma"] },
-  { cat: "activity", date: "2024.03 – 2024.08", title: "AI 부트캠프 4기 — 우수상", org: "OO 부트캠프",
-    desc: "RAG 기반 사내 지식 검색 솔루션을 팀 리더로 6주간 빌드. 최종 데모데이 우수상 수상.",
-    bullets: ["임베딩 + 하이브리드 검색 설계, 사용자 테스트 12회", "백엔드 API 설계 및 PM 역할 동시 수행"],
-    skills: ["LangChain", "FastAPI", "Pinecone"] },
-  { cat: "activity", date: "2023.05 – 2023.12", title: "교내 창업 동아리 — 운영진", org: "OO대학교",
-    desc: "월 1회 데모데이 기획·운영, 외부 멘토 섭외 및 60+명 커뮤니티 관리.",
-    skills: ["Community", "Event Ops"] },
-  { cat: "education", date: "2020.03 – 2024.02", title: "OO대학교 경영학과 학사", org: "GPA 3.8 / 4.5",
-    desc: "복수전공: 데이터사이언스. 졸업 프로젝트로 이커머스 전환율 예측 모델을 진행했습니다.",
-    skills: ["Statistics", "SQL", "R"] },
-  { cat: "education", date: "2022.07 – 2022.12", title: "Coursera — DeepLearning.AI Specialization", org: "Andrew Ng",
-    desc: "신경망 기초부터 시퀀스 모델까지 5개 코스 수료. 노트와 실습 코드는 GitHub에 정리.",
-    skills: ["Python", "TensorFlow"] }];
+  { cat: "education", date: "2026.04 – 2026.06", title: "'LIME Zest Academy' 커뮤니티 디자인 부트캠프", org: "광명시 청년동",
+    desc: "광명시 청년동 주관 커뮤니티 디자인 부트캠프 참여",
+    bullets: [
+      "커뮤니티 디자인 방법론 및 기획 프로세스 학습",
+      "개인별 모임 기획·운영을 위한 실습 중심 커리큘럼 이수",
+      "지역사회 기반 커뮤니티 운영 역량 함양"
+    ] },
+  { cat: "activity", date: "2025.08 – 2025.11", title: "'Make it AI' 동아리 — 「메이킷 AI 포레스트 – 상상이 현실이 되는 숲」 전시", org: "서울청년센터 금천",
+    desc: "금천청년센터 기반 AI 활용 동아리 'Make it AI' 활동 참여",
+    bullets: [
+      "2025 미디어센터 관악 생성형 AI 공모전 «GAGA» 참여",
+      "개인 콘셉트 캐릭터 'Rus(루스)' 기획 및 생성형 AI 도구 활용 이미지·영상 콘텐츠 제작",
+      "「루스답게, 나답게」 작품 출품 및 단체 전시 참여"
+    ] },
+  { cat: "activity", date: "2025.07 – 2025.11", title: "'AIDEA' AI 스터디 동아리 — 리더 활동", org: "광명시 청년동",
+    desc: "AI 스터디 동아리 'AIDEA' 리더로 활동, 전체 스터디 기획·운영 총괄",
+    bullets: [
+      "주 1회 정기 모임 운영 / 모임 기획·진행 방식 설계 및 과제 출제·수행",
+      "ChatGPT, Gemini, Claude, Genspark, Midjourney, Freepik 등 주요 생성형 AI 도구 활용 실습",
+      "멤버별 업무·학업 활용 사례 공유 및 적용 관점 토론 진행"
+    ] },
+  { cat: "competition", date: "2023.07 – 2023.11", title: "시민제안사업 '문화지음소' — 청년 기획자 인큐베이팅 분야 선정", org: "광명문화재단",
+    desc: "광명문화재단 시민제안사업 '문화지음소' 청년 기획자 인큐베이팅 분야 공모 선정",
+    bullets: [
+      "사회초년생·청년 대상 재무 관리 특강 기획·운영",
+      "재무·재테크 전문 강사 섭외부터 홍보, 운영까지 단독 총괄"
+    ] },
+  { cat: "award", date: "2023", title: "시민제안사업 문화지음소 우수상", org: "광명문화재단" },
+  { cat: "activity", date: "2020.10 – 2020.11", title: "'함께 읽고 서로 잇다' 북콘서트 — 도시재생 프로젝트 기획·운영", org: "서대문구청 / 신촌 파랑고래",
+    desc: "서대문구 도시재생 프로젝트 북콘서트의 담당자로서 행사 전반 진행",
+    bullets: [
+      "기획·섭외·운영 전반 총괄 (온·오프라인 동시 진행)",
+      "지역 서점 운영자(사회) / 인디 가수(공연) / 초청 작가 패널 섭외",
+      "Book Talk 프로그램 구성"
+    ] },
+  { cat: "competition", date: "2020.09", title: "'청년일자리 프로젝트' — 구로 청년 구인·구직 플랫폼 기획·운영", org: "구로구청",
+    desc: "구로구 거주·활동 청년 대상 구인·구직 플랫폼 제작 프로젝트 공모 선정 및 실제 운영",
+    bullets: [
+      "팀 내 기획자 포지션 / 홈페이지 기획 및 외주 디렉팅 담당",
+      "구로구 청년 일자리 매칭 플랫폼 전반 기획",
+      "홈페이지 제작·홍보까지 진행"
+    ] },
+  { cat: "activity", date: "2020.07 – 2020.11", title: "'문화예술 콘텐츠 기획단' — 지역 예술가 발굴·홍보 및 전시 기획", org: "구로구 일자리지원과",
+    desc: "구로구 기반 활동 예술가 지원을 위한 콘텐츠 발굴 및 홍보 활동 수행",
+    bullets: [
+      "인디 가수, 독립 영화 제작자 등을 발굴 / 홍보 포스터·홍보 전략·청년 예술가 활동 예산 기획",
+      "콘텐츠 기획 및 전시 기획 담당",
+      "구로구청 앞 부스 전시 운영 (TV 뮤직비디오·독립 영화 상영, 굿즈 제작)"
+    ] },
+  { cat: "award", date: "2020.07", title: "행정학과 경진대회 우수상", org: "성결대학교" },
+  { cat: "activity", date: "2020.06 – 2021.11", title: "'대한민국청소년의회' 기자단 — '너의 학과는?' 기획 연재", org: "대한민국청소년의회",
+    desc: "대학생·청년 기자단 일원으로 활동하며 청소년 진로·진학 콘텐츠 제작",
+    bullets: [
+      "청소년 진로 고민에 실질적 도움을 주고자 '너의 학과는?' 기획 기사 시리즈 직접 발의·연재",
+      "사회복지학과·컴퓨터공학과 등 다양한 학과·전공 인터뷰 진행",
+      "청소년 독자 관점에서 진학 정보 큐레이션"
+    ] },
+  { cat: "education", date: "2020.06 – 2020.09", title: "'문화예술기획학교' 실무 과정 — '신촌, 기억날지도' 기획", org: "서대문구 도시재생과",
+    desc: "실무형 문화예술기획학교 과정 수료 및 도시재생 프로젝트 기획안 작성",
+    bullets: [
+      "신촌의 옛 모습을 주제로 한 도시재생 프로젝트 '신촌, 기억날지도' 기획 담당",
+      "신촌 주민 인터뷰 및 옛 사진 수집, 옛 신촌 지도 재구성 등 아카이빙 콘셉트 설계",
+      "사라진 신촌 가게 및 유명 장소 옛 모습 기록 기획안 도출"
+    ] },
+  { cat: "activity", date: "2020.06", title: "청년현장발굴사업 'OO로드' — 지방 청년 기획자 아카이빙", org: "서울특별시 청년교류공간",
+    desc: "지방 청년 기획자를 발굴·기록하는 인터뷰 및 아카이빙 프로젝트 수행",
+    bullets: [
+      "강원도, 통영, 울산 지역 청년 기획자 직접 인터뷰",
+      "인터뷰 내용 기반 책자 형태 아카이빙 결과물 발간",
+      "지역 기반 청년 활동의 가시화 및 기록 작업 기여"
+    ] },
+  { cat: "award", date: "2020.01", title: "행정학과 경진대회 우수상", org: "성결대학교" },
+  { cat: "activity", date: "2019.08 – 2019.12", title: "'밀레니얼 공작소' 2기 — 뉴트로 콘셉트 부스 기획", org: "신촌 파랑고래",
+    desc: "뉴트로 콘셉트 문화 행사 부스팀 일원으로 부스 기획·운영 담당",
+    bullets: [
+      "게임 부스, 먹거리 부스, 미션 수행 부스 등 다양한 체험형 부스 기획",
+      "신촌 창천문화공원에서 현장 행사 운영",
+      "행사 콘셉트에 맞는 부스 콘텐츠 설계 및 현장 운영"
+    ] },
+  { cat: "activity", date: "2019.03 – 2019.06", title: "'밀레니얼 공작소' 1기 — 강연팀 세션 기획·운영", org: "신촌 파랑고래",
+    desc: "세 개 세션으로 구성된 강연 행사 중 두 번째 세션 단독 기획·운영·진행 담당",
+    bullets: [
+      "세션명 '볼파란 청춘들의 여행 : 마음으로 떠나는 여행기' 기획",
+      "JTBC 「트래블러」 작가 섭외"
+    ] },
+  { cat: "award", date: "2019", title: "밀레니얼 공작소 1기 강연팀 MVP 선정", org: "신촌 파랑고래" },
+  { cat: "activity", date: "2018.09 – 2018.12", title: "성결대 '문화기획 취업 동아리' — 학부 행사 기획·운영", org: "성결대학교",
+    desc: "동아리 팀원으로 활동하며 음악학부 행사 기획·운영 참여",
+    bullets: [
+      "음악학부 연주회 기획 및 운영 지원",
+      "음악학부 경진대회 기획 및 운영 지원",
+      "행사 기획·운영 실무 경험 축적"
+    ] }];
 
 
   const PROJECTS = [
-  { label: "PROJECT 01", year: "2024–2025", role: "Education Consultant",
+  { label: "PROJECT 01", year: "Always", role: "Education Consultant",
     title: "고객사 맞춤형 교육과정 설계·제작 및 운영 관리",
-    desc: "고객사 교육 문의 응대 및 컨설팅부터 업무 환경 분석, 맞춤형 커리큘럼·교안 설계·제작까지 교육 기획 전 과정 수행",
-    stack: ["AI 교육 컨설팅", "맞춤 커리큘럼 설계", "교안 제작"], accent: 3, icon: "compass",
+    desc: "고객사 교육 문의 응대 및 컨설팅부터 업무 환경 분석, 맞춤형 커리큘럼·교안 설계·제작까지\n교육 기획 전 과정 수행",
+    stack: ["생성형 AI 교육", "AX 도입 컨설팅", "교육 기획 및 교육 운영"], accent: 3, icon: "compass",
     detail: {
       layout: "scroll",
       sections: {
@@ -1619,7 +1722,7 @@
         }
       }
     } },
-  { label: "PROJECT 02", year: "2025", role: "Curriculum Developer",
+  { label: "PROJECT 02", year: "2026.02", role: "Curriculum Developer",
     title: "Agent 교육 과정 설계 및 콘텐츠 개발",
     desc: "비개발자·비전공자를 위한 Agent 교육 과정 설계 및 콘텐츠 개발",
     stack: ["AI 트렌드 리서치", "커리큘럼 설계", "교안·실습 제작"], accent: 5, icon: "bolt",
@@ -1628,7 +1731,7 @@
       sections: {
         detail: {
           summary: "비개발자·비전공자를 위한 Agent 교육 과정 설계 및 콘텐츠 개발",
-          image: { src: "프로젝트 이미지/project 02/메인 이미지.png",
+          image: { src: "프로젝트 이미지/project 02/1.png",
                    alt: "Agent 제작 커리큘럼 메인 이미지",
                    ratio: "16 / 9" }
         },
@@ -1673,7 +1776,7 @@
         }
       }
     } },
-  { label: "PROJECT 03", year: "2025", role: "Prompt Engineer",
+  { label: "PROJECT 03", year: "2025.09~2025.11", role: "Prompt Engineer",
     title: "수출용 무역 비즈니스 프롬프트 제작",
     desc: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작",
     stack: ["프롬프트 설계", "무역 도메인 리서치", "활용 가이드라인"], accent: 7, icon: "globe",
@@ -1711,23 +1814,27 @@
             { src: "프로젝트 이미지/project 03/3.png", alt: "수출용 무역 비즈니스 프롬프트 결과 2" }
           ],
           imagesCaption: "*수출용 무역 비즈니스 프롬프트 결과물",
+          notesLabel: "성과지표",
           notes: [
             "고객사 피드백 3회 반영 및 품질 고도화 완료",
             "프롬프트 파일 · 활용 가이드라인 파일 납품",
-            "고객사 납품 품질 만족 및 추가 계약 체결"
+            "1차 프로젝트 성과 기반 2차 계약 연속 수주"
           ]
         }
       }
     } },
-  { label: "PROJECT 04", year: "2025", role: "AI Education & Consulting",
+  { label: "PROJECT 04", year: "2025.05~2025.12", role: "AI Education & Consulting",
     title: "2025 산업맞춤형 혁신바우처",
-    desc: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 — 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행",
+    desc: "울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행",
     stack: ["전사 AI 교육", "핵심 인재 양성", "AI Agent 기획"], accent: 4, icon: "spark",
     detail: {
       layout: "scroll",
       sections: {
         detail: {
-          summary: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 참여. 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행 (2025.05 ~ 2025.12)",
+          summary: [
+            "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 참여",
+            "울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행"
+          ],
           image: { src: "프로젝트 이미지/projects 04/강의 1.jpg",
                    alt: "산업맞춤형 혁신바우처 교육 현장",
                    caption: "*산업맞춤형 혁신바우처 교육 현장",
@@ -1746,7 +1853,7 @@
           { title: "핵심 인재 양성",
             items: ["부서별 인원 선발 후 심화 과정 진행",
                     "부서별 특화 생성형 AI 서비스 선정 및 업무 상황별 활용 심화 교육",
-                    "부서별 업무 프로세스 인터뷰 기반 맞춤 교육 설계"] },
+                    "부서별 인터뷰 기반 맞춤 교육 설계"] },
           { title: "AI 컨설팅",
             items: ["부서별 업무 프로세스 분석 및 AI 활용 지점 도출",
                     "업무 특화 AI Agent 기획",
@@ -1774,7 +1881,7 @@
         }
       }
     } },
-  { label: "PROJECT 05", year: "2023–2025", role: "Lecturer",
+  { label: "PROJECT 05", year: "Always", role: "Lecturer",
     title: "공공기관·기업 대상 생성형 AI 출강",
     desc: "공공기관·기업 대상 생성형 AI 강의 출강, 직종·직급별 맞춤 난이도 조정 및 실습 중심 강의 운영",
     stack: ["메인 강사 출강", "직무별 맞춤 강의", "현장 운영"], accent: 5, icon: "mic",
@@ -1828,7 +1935,7 @@
         }
       }
     } },
-  { label: "PROJECT 06", year: "2025", role: "Internal Tool Builder",
+  { label: "PROJECT 06", year: "Always", role: "Internal Tool Builder",
     title: "생성형 AI 활용 업무 자동화 도구 제작",
     desc: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작",
     stack: ["Claude Code", "Supabase", "VBA 자동화"], accent: 6, icon: "code",
@@ -2054,7 +2161,13 @@
                         <span className="ms-sec-num">01</span>
                         <h3 className="ms-sec-label">Project Detail</h3>
                       </div>
-                      <p className="ms-sec-lead">{sx.detail.summary}</p>
+                      {Array.isArray(sx.detail.summary) ? (
+                        <ul className="ms-sec-lead-list">
+                          {sx.detail.summary.map((s) => <li key={s}>{s}</li>)}
+                        </ul>
+                      ) : (
+                        <p className="ms-sec-lead">{sx.detail.summary}</p>
+                      )}
                       {sx.detail.image && (
                         <figure className="ms-sec-image">
                           <div className="ms-sec-image-frame" style={{ aspectRatio: sx.detail.image.ratio || "4 / 3" }}>
@@ -2437,12 +2550,6 @@
         <nav className="nav">
           {items.map((i) => <a key={i.id} href={`#${i.id}`} className={active === i.id ? "active" : ""}>{i.label}</a>)}
         </nav>
-        <div className="hdr-right">
-          <div className="hdr-meta"><span className="hdr-dot" /><span>Open to work</span></div>
-          <a className="resume-btn" href="#contact">Résumé
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
-          </a>
-        </div>
       </div>
     </header>);
 
@@ -2505,7 +2612,6 @@
                 <div key={i} className="hero-stat">
                   <div className="hero-stat-num">
                     {s.num}<span className="unit">{s.unit}</span>
-                    {s.arrow && <span className="arr">↑</span>}
                   </div>
                   <div className="hero-stat-label">{s.label}</div>
                   <div className="hero-stat-desc">{s.desc}</div>
@@ -2535,7 +2641,6 @@
       <div className="fab-card" data-open={open ? "1" : "0"} id="contact">
         <div className="fab-card-h">
           <span><span className="dot" />Contact</span>
-          <span>OPEN TO WORK</span>
         </div>
         <div className="fab-row"><span className="k">name</span><span className="v">{CONTACT.name}</span></div>
         <div className="fab-row"><span className="k">role</span><span className="v">{CONTACT.role}</span></div>
@@ -2547,8 +2652,6 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l9 6 9-6" /><rect x="3" y="5" width="18" height="14" rx="2" /></svg>
             이메일 보내기
           </a>
-          <a className="fab-act secondary" href="#">GitHub</a>
-          <a className="fab-act secondary" href="#">LinkedIn</a>
         </div>
       </div>
       <button className="fab-btn" data-open={open ? "1" : "0"} aria-label="Contact" onClick={() => setOpen((o) => !o)}>
@@ -2566,21 +2669,22 @@
     const filtered = useMemo(() => filter === "all" ? TIMELINE : TIMELINE.filter((t) => t.cat === filter), [filter]);
     const counts = useMemo(() => ({
       all: TIMELINE.length,
-      experience: TIMELINE.filter((t) => t.cat === "experience").length,
       activity: TIMELINE.filter((t) => t.cat === "activity").length,
+      competition: TIMELINE.filter((t) => t.cat === "competition").length,
+      award: TIMELINE.filter((t) => t.cat === "award").length,
       education: TIMELINE.filter((t) => t.cat === "education").length
     }), []);
-    const filters = [{ k: "all", label: "전체" }, { k: "experience", label: "Experience" }, { k: "activity", label: "Activity" }, { k: "education", label: "Education" }];
-    const catLabel = { experience: "Exp", activity: "Activity", education: "Edu" };
+    const filters = [{ k: "all", label: "전체" }, { k: "activity", label: "대외활동" }, { k: "competition", label: "공모전" }, { k: "award", label: "수상" }, { k: "education", label: "교육이수" }];
+    const catLabel = { activity: "대외활동", competition: "공모전", award: "수상", education: "교육이수" };
     return (
       <section id="experience" className="section">
       <div className="container">
-        <div className="section-head">
+        <div className="section-head section-head--stack">
           <div>
-            <div className="section-num">Track Record</div>
-            <h2 className="section-title">지나온 자리, <em>쌓은 것</em></h2>
+            <div className="section-num">Experience</div>
+            <h2 className="section-title section-title--bold">정보·경험·메시지를 <em>전달해 온 기획자</em></h2>
+            <p className="section-desc section-desc--inline">정보를 알리는 일에서 시작해 학습과 성장을 함께 만드는 일까지<br />사람에게 가닿는 콘텐츠와 교육을 직접 기획하고 운영해 온 활동의 기록들입니다.</p>
           </div>
-          <p className="section-desc">업무 경험, 외부 활동, 학습 이력을 한 줄에 모았습니다. 클릭하면 어떤 문제를 풀었고, 어떤 도구를 썼는지 펼쳐서 볼 수 있습니다.</p>
         </div>
         <div className="filter-bar">
           {filters.map((f) =>
@@ -2593,7 +2697,7 @@
         </div>
         <div className="timeline">
           {filtered.map((t, i) =>
-            <div key={t.title} className={"tl-item " + (openIdx === i ? "open" : "")}
+            <div key={`${t.cat}-${t.date}-${t.title}`} className={"tl-item " + (openIdx === i ? "open" : "")}
             onClick={() => setOpenIdx(openIdx === i ? -1 : i)}>
               <div className="tl-date mono">{t.date}</div>
               <div className="tl-body">
@@ -2621,12 +2725,12 @@
     return (
       <section id="projects" className="section">
       <div className="container">
-        <div className="section-head">
+        <div className="section-head section-head--stack">
           <div>
-            <div className="section-num">03 / Projects</div>
-            <h2 className="section-title">AI <em>교육·컨설팅 및 실무 기록</em></h2>
+            <div className="section-num">Projects</div>
+            <h2 className="section-title section-title--bold">AI <em>교육·컨설팅 및 실무 기록</em></h2>
+            <p className="section-desc section-desc--inline">고객사 컨설팅부터 교육 기획 및 운영, 커리큘럼 설계, 사내 도구 제작까지,<br />기획에 그치지 않고 직접 현장에서 수행한 업무 기록들입니다.</p>
           </div>
-          <p className="section-desc">고객사 컨설팅부터 교육 기획 및 운영, 커리큘럼 설계, 사내 도구 제작까지,<br />기획에 그치지 않고 직접 현장에서 수행한 업무 기록들입니다.</p>
         </div>
         <div className="proj-grid">
           {PROJECTS.map((p) => (
@@ -2645,12 +2749,12 @@
                 )}
               </div>
               <div className="proj-body">
-                <div className="proj-meta-row"><span>{p.role}</span><span>{p.year}</span></div>
+                <div className="proj-meta-row"><span>{p.role}</span><span className="proj-year">{p.year}</span></div>
                 <div className="proj-title">{p.title}</div>
                 <div className="proj-desc">{p.desc}</div>
                 <div className="proj-stack">{p.stack.map((s) => <span key={s} className="tag">{s}</span>)}</div>
                 <div className="proj-foot">
-                  <span>Case study →</span>
+                  <span className="proj-foot-label">Project Details</span>
                   <span className="proj-arrow">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                   </span>
@@ -2668,18 +2772,7 @@
     return (
       <footer>
       <div className="container">
-        <div className="foot-grid">
-          <div>
-            <div className="foot-cta">지금, <em>같이 만들 사람</em>을<br />찾고 있어요.</div>
-            <a className="resume-btn" style={{ marginTop: 24 }} href={`mailto:${CONTACT.email}`}>{CONTACT.email}
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
-            </a>
-          </div>
-          <div className="foot-col"><h5>Sections</h5><a href="#about">About</a><a href="#projects">Projects</a><a href="#experience">Experience</a></div>
-          <div className="foot-col"><h5>Elsewhere</h5><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Notion</a></div>
-          <div className="foot-col"><h5>Direct</h5><a href={`mailto:${CONTACT.email}`}>Email</a><a href="#">Phone</a><a href="#">Calendly</a></div>
-        </div>
-        <div className="foot-bottom"><span>© 2026 {name.replace(/\s/g, "")}. Built with care.</span><span>Updated 2026.05</span></div>
+        <div className="foot-bottom"><span>© 2026 {name.replace(/\s/g, "")}. Built with care.</span></div>
       </div>
     </footer>);
 
