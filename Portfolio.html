@@ -298,8 +298,8 @@
   .hero-contact-row a{ color:var(--fg); }
   .hero-contact-row a:hover{ color:var(--pop); }
   .tag{
-    font-family:'JetBrains Mono',monospace; font-size:11px;
-    padding:5px 9px; border:1px solid var(--line-strong); border-radius:999px;
+    font-family:inherit; font-size:11px; font-weight:500; letter-spacing:-0.005em;
+    padding:5px 10px; border:1px solid var(--line-strong); border-radius:999px;
     color:var(--fg-2);
   }
 
@@ -485,12 +485,13 @@
     box-shadow:0 16px 36px -18px color-mix(in oklch, var(--pop) 40%, transparent);
   }
   .proj-thumb{
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     background:var(--bg);
     border-bottom:1px solid var(--line);
     position:relative;
     overflow:hidden;
   }
+  .proj-thumb-img{ object-position:center; }
   .proj-thumb-pattern{
     position:absolute; inset:0;
     background-image: repeating-linear-gradient(45deg, color-mix(in oklch, var(--pop) 6%, transparent) 0 1px, transparent 1px 14px);
@@ -531,7 +532,7 @@
   .proj-thumb-img{
     position:absolute; inset:0;
     width:100%; height:100%;
-    object-fit:cover;
+    object-fit:contain;
     display:block;
   }
   .proj-thumb.has-image .proj-thumb-pattern{ display:none; }
@@ -1106,7 +1107,7 @@
     overflow:hidden; background:var(--card);
     width:100%;
   }
-  .ms-sec-image-frame img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .ms-sec-image-frame img{ display:block; width:100%; height:100%; object-fit:contain; }
   .ms-sec-image-cap{
     margin-top:8px;
     font-size:11.5px; color:var(--fg-3); line-height:1.4;
@@ -1222,6 +1223,21 @@
     width:4px; height:4px; border-radius:50%;
     background:color-mix(in oklch, var(--pop) 70%, var(--fg-3));
   }
+  .ms-sol-image{
+    margin:14px 0 0; padding:0;
+  }
+  .ms-sol-image-frame{
+    border:1px solid var(--line); border-radius:var(--radius-sm);
+    overflow:hidden; background:var(--card);
+    width:100%; aspect-ratio:16 / 9;
+  }
+  .ms-sol-image-frame img{
+    display:block; width:100%; height:100%; object-fit:contain;
+  }
+  .ms-sol-image-cap{
+    margin-top:8px;
+    font-size:11.5px; color:var(--fg-3); line-height:1.4;
+  }
 
   /* Outcome */
   .ms-out-block{ margin:0 0 18px; }
@@ -1244,6 +1260,7 @@
   .ms-out-rolesep{ color:var(--pop); font-size:13px; }
 
   /* Outcome — 정성적 결과 텍스트 리스트 */
+  .ms-out-notes-block{ margin:0 0 16px; }
   .ms-out-notes{
     list-style:none; margin:0; padding:0;
     display:flex; flex-direction:column; gap:10px;
@@ -1275,7 +1292,7 @@
   .ms-out-images-cell img{
     display:block;
     width:100%; height:100%;
-    object-fit:cover;
+    object-fit:contain;
     image-rendering:-webkit-optimize-contrast;
     image-rendering:crisp-edges;
   }
@@ -1538,14 +1555,14 @@
 
   const PROJECTS = [
   { label: "PROJECT 01", year: "2024–2025", role: "Education Consultant",
-    title: "고객사 교육·컨설팅 문의 응대",
-    desc: "고객사 AI 도입 요구 접수부터 업무 맥락 분석, 맞춤형 커리큘럼·교안 설계·제작까지 수행한 교육 및 컨설팅 프로젝트.",
+    title: "고객사 맞춤형 교육과정 설계·제작 및 운영 관리",
+    desc: "고객사 교육 문의 응대 및 컨설팅부터 업무 환경 분석, 맞춤형 커리큘럼·교안 설계·제작까지 교육 기획 전 과정 수행",
     stack: ["AI 교육 컨설팅", "맞춤 커리큘럼 설계", "교안 제작"], accent: 3, icon: "compass",
     detail: {
       layout: "scroll",
       sections: {
         detail: {
-          summary: "고객사 AI 도입 요구 접수부터 업무 맥락 분석, 맞춤형 커리큘럼·교안 설계·제작까지 수행한 교육 및 컨설팅 프로젝트",
+          summary: "고객사 교육 문의 응대 및 컨설팅부터 업무 환경 분석, 맞춤형 커리큘럼·교안 설계·제작까지 교육 기획 전 과정 수행",
           image: { src: "프로젝트 이미지/Project 01/교육자료 샘샘.png",
                    alt: "교육자료 예시",
                    caption: "*교육자료 예시", ratio: "16 / 9" },
@@ -1603,14 +1620,14 @@
       }
     } },
   { label: "PROJECT 02", year: "2025", role: "Curriculum Developer",
-    title: "Agent 제작 커리큘럼 개발",
-    desc: "비개발자·비전공자를 위한 Agent 제작 커리큘럼 기획·개발.",
+    title: "Agent 교육 과정 설계 및 콘텐츠 개발",
+    desc: "비개발자·비전공자를 위한 Agent 교육 과정 설계 및 콘텐츠 개발",
     stack: ["AI 트렌드 리서치", "커리큘럼 설계", "교안·실습 제작"], accent: 5, icon: "bolt",
     detail: {
       layout: "scroll",
       sections: {
         detail: {
-          summary: "비개발자·비전공자를 위한 Agent 제작 커리큘럼 기획·개발",
+          summary: "비개발자·비전공자를 위한 Agent 교육 과정 설계 및 콘텐츠 개발",
           image: { src: "프로젝트 이미지/project 02/메인 이미지.png",
                    alt: "Agent 제작 커리큘럼 메인 이미지",
                    ratio: "16 / 9" }
@@ -1647,6 +1664,7 @@
           ],
           imagesCaption: "*Agent 제작 커리큘럼 결과물",
           tools: ["Gemini", "Claude", "V0", "Stitch", "Google AI Studio", "Opal"],
+          notesLabel: "성과지표",
           notes: [
             "Agent 교육 론칭 직후 고객사 교육 의뢰 발생",
             "한국건설기술연구원 · 한국안전보건공단 납품 및 교육 진행",
@@ -1657,14 +1675,14 @@
     } },
   { label: "PROJECT 03", year: "2025", role: "Prompt Engineer",
     title: "수출용 무역 비즈니스 프롬프트 제작",
-    desc: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작.",
+    desc: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작",
     stack: ["프롬프트 설계", "무역 도메인 리서치", "활용 가이드라인"], accent: 7, icon: "globe",
     detail: {
       layout: "scroll",
       sections: {
         detail: {
           summary: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작",
-          image: { src: "프로젝트 이미지/project 03/1.png",
+          image: { src: "프로젝트 이미지/project 03/그림1.png",
                    alt: "수출용 무역 비즈니스 프롬프트 메인 이미지",
                    caption: "*(예시) 프롬프트 입력 화면 및 송장 문서",
                    ratio: "16 / 9" }
@@ -1703,7 +1721,7 @@
     } },
   { label: "PROJECT 04", year: "2025", role: "AI Education & Consulting",
     title: "2025 산업맞춤형 혁신바우처",
-    desc: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 — 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행.",
+    desc: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 — 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행",
     stack: ["전사 AI 교육", "핵심 인재 양성", "AI Agent 기획"], accent: 4, icon: "spark",
     detail: {
       layout: "scroll",
@@ -1713,7 +1731,8 @@
           image: { src: "프로젝트 이미지/projects 04/강의 1.jpg",
                    alt: "산업맞춤형 혁신바우처 교육 현장",
                    caption: "*산업맞춤형 혁신바우처 교육 현장",
-                   ratio: "16 / 9" }
+                   ratio: "16 / 9",
+                   fit: "cover" }
         },
         needs: [
           "전사 차원의 생성형 AI 도입 필요",
@@ -1757,7 +1776,7 @@
     } },
   { label: "PROJECT 05", year: "2023–2025", role: "Lecturer",
     title: "공공기관·기업 대상 생성형 AI 출강",
-    desc: "공공기관·기업 대상 생성형 AI 강의 출강. 직종·직급별 맞춤 난이도 조정 및 실습 중심 강의 운영.",
+    desc: "공공기관·기업 대상 생성형 AI 강의 출강, 직종·직급별 맞춤 난이도 조정 및 실습 중심 강의 운영",
     stack: ["메인 강사 출강", "직무별 맞춤 강의", "현장 운영"], accent: 5, icon: "mic",
     detail: {
       layout: "scroll",
@@ -1767,7 +1786,8 @@
           image: { src: "프로젝트 이미지/Project 05/프로젝트 디테일.png",
                    alt: "생성형 AI 출강 프로젝트 디테일 이미지",
                    caption: "*2025 KGSF 해외마케팅 특별세미나",
-                   ratio: "16 / 9" }
+                   ratio: "16 / 9",
+                   fit: "cover" }
         },
         needs: [
           "직종·직급별 생성형 AI 활용 역량 강화 필요",
@@ -1810,17 +1830,18 @@
     } },
   { label: "PROJECT 06", year: "2025", role: "Internal Tool Builder",
     title: "생성형 AI 활용 업무 자동화 도구 제작",
-    desc: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작.",
+    desc: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작",
     stack: ["Claude Code", "Supabase", "VBA 자동화"], accent: 6, icon: "code",
     detail: {
       layout: "scroll",
       sections: {
         detail: {
           summary: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작",
-          image: { src: "",
-                   alt: "업무 자동화 도구 메인 이미지",
-                   caption: "*업무 자동화 도구 결과물",
-                   ratio: "16 / 9" }
+          image: { src: "프로젝트 이미지/Project 06/장바구니 메인 화면.png?v=3",
+                   alt: "커리큘럼 장바구니 메인 화면",
+                   caption: "*커리큘럼 장바구니 메인 화면",
+                   ratio: "16 / 9",
+                   fit: "cover" }
         },
         needsLabel: "조직 내 Pain Point",
         needs: [
@@ -1835,17 +1856,29 @@
             items: ["카테고리별 커리큘럼 목록 한눈에 조회",
                     "커리큘럼 수정·보완·추가 기능",
                     "커리큘럼 엑셀 파일 형태로 다운로드 지원",
-                    "Supabase 연동으로 내부 데이터 실시간 관리"] },
+                    "Supabase 연동으로 내부 데이터 실시간 관리"],
+            image: { src: "프로젝트 이미지/Project 06/커리큘럼 상세.png",
+                     alt: "커리큘럼 상세 화면",
+                     caption: "*커리큘럼 상세 화면" } },
           { title: "일일·주간 광고리포트 자동화",
             items: ["구글 GA · 네이버 검색광고 등 엑셀 로우데이터 입력만으로 보고서 자동 생성",
                     "데이터 정제 · 함수 계산 자동화",
-                    "자사 기존 엑셀 보고서 형식 그대로 출력"] },
+                    "자사 기존 엑셀 보고서 형식 그대로 출력"],
+            image: { src: "프로젝트 이미지/Project 06/광고운영리포트.png",
+                     alt: "광고운영리포트 자동화 화면",
+                     caption: "*광고운영리포트 자동화 결과" } },
           { title: "지출증빙용 영수증 OCR Agent",
             items: ["영수증 이미지 업로드 시 원하는 항목 자동 파싱",
-                    "결과물 표 형태 즉시 확인 및 엑셀 다운로드 지원"] },
+                    "결과물 표 형태 즉시 확인 및 엑셀 다운로드 지원"],
+            image: { src: "프로젝트 이미지/Project 06/영수증 OCR 최종.png",
+                     alt: "영수증 OCR Agent 결과 화면",
+                     caption: "*영수증 OCR Agent 결과 화면" } },
           { title: "업무 일정 관리 도구",
             items: ["일정 목록별 조회 및 메모 기록 기능",
-                    "구글 캘린더 · 스프레드시트 API 연동으로 실시간 업데이트 및 기록"] },
+                    "구글 캘린더 · 스프레드시트 API 연동으로 실시간 업데이트 및 기록"],
+            image: { src: "프로젝트 이미지/Project 06/일정 관리.png",
+                     alt: "업무 일정 관리 도구 화면",
+                     caption: "*업무 일정 관리 도구 화면" } },
           { title: "엑셀 VBA 활용 이메일 자동화",
             items: ["HTML 템플릿 기반 서식 적용으로 일관된 메일 품질 유지",
                     "고객사명·담당자명 자동 치환",
@@ -2026,7 +2059,7 @@
                         <figure className="ms-sec-image">
                           <div className="ms-sec-image-frame" style={{ aspectRatio: sx.detail.image.ratio || "4 / 3" }}>
                             {sx.detail.image.src
-                              ? <img src={sx.detail.image.src} alt={sx.detail.image.alt} />
+                              ? <img src={sx.detail.image.src} alt={sx.detail.image.alt} style={{ objectFit: sx.detail.image.fit || "contain", objectPosition: sx.detail.image.position || "center" }} />
                               : <div className="ms-image-ph" aria-label={sx.detail.image.alt}>
                                   <span className="ms-image-ph-tag">IMAGE</span>
                                   <span className="ms-image-ph-text">{sx.detail.image.caption || "이미지 자리"}</span>
@@ -2089,6 +2122,16 @@
                             <ul className="ms-sol-items">
                               {s.items.map((it) => <li key={it}>{it}</li>)}
                             </ul>
+                            {s.image && s.image.src && (
+                              <figure className="ms-sol-image">
+                                <div className="ms-sol-image-frame">
+                                  <img src={s.image.src} alt={s.image.alt || s.title} loading="lazy" />
+                                </div>
+                                {s.image.caption && (
+                                  <figcaption className="ms-sol-image-cap">{s.image.caption}</figcaption>
+                                )}
+                              </figure>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -2185,9 +2228,18 @@
                           </table>
                         )}
                         {sx.outcome.notes && (
-                          <ul className="ms-out-notes">
-                            {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
-                          </ul>
+                          sx.outcome.notesLabel ? (
+                            <div className="ms-out-notes-block">
+                              <div className="ms-tools-label">{sx.outcome.notesLabel}</div>
+                              <ul className="ms-out-notes">
+                                {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                              </ul>
+                            </div>
+                          ) : (
+                            <ul className="ms-out-notes">
+                              {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                            </ul>
+                          )
                         )}
                       </div>
                     </section>
@@ -2571,10 +2623,10 @@
       <div className="container">
         <div className="section-head">
           <div>
-            <div className="section-num">03 / Selected Work</div>
-            <h2 className="section-title">AI로 <em>만들어 본 것들</em></h2>
+            <div className="section-num">03 / Projects</div>
+            <h2 className="section-title">AI <em>교육·컨설팅 및 실무 기록</em></h2>
           </div>
-          <p className="section-desc">주말마다 혹은 팀 안에서 직접 짠 결과물들입니다. 아이디어보다는 “돌아가는 것"에, 기능보다는 “살아남는 흐름"에 집중했습니다.</p>
+          <p className="section-desc">고객사 컨설팅부터 교육 기획 및 운영, 커리큘럼 설계, 사내 도구 제작까지,<br />기획에 그치지 않고 직접 현장에서 수행한 업무 기록들입니다.</p>
         </div>
         <div className="proj-grid">
           {PROJECTS.map((p) => (
@@ -2587,11 +2639,10 @@
               <div className={`proj-thumb${p.detail?.sections?.detail?.image?.src ? " has-image" : ""}`}>
                 <div className="proj-thumb-pattern" />
                 {p.detail?.sections?.detail?.image?.src ? (
-                  <img className="proj-thumb-img" src={p.detail.sections.detail.image.src} alt={p.detail.sections.detail.image.alt || p.title} loading="lazy" />
+                  <img className="proj-thumb-img" src={p.detail.sections.detail.image.src} alt={p.detail.sections.detail.image.alt || p.title} loading="lazy" style={{ objectFit: p.detail.sections.detail.image.fit || "contain", objectPosition: p.detail.sections.detail.image.position || "center" }} />
                 ) : (
                   <div className="proj-thumb-icon"><ProjIcon kind={p.icon} /></div>
                 )}
-                <div className="proj-thumb-label"><span>{p.label}</span><span>{p.year}</span></div>
               </div>
               <div className="proj-body">
                 <div className="proj-meta-row"><span>{p.role}</span><span>{p.year}</span></div>
