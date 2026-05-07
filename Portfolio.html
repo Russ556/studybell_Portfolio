@@ -1,0 +1,2773 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Portfolio — 포트폴리오</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root{
+    --bg: #FAFAFA;
+    --fg: #1a1a1a;
+    --fg-2: #4a4a4a;
+    --fg-3: #808080;
+    --fg-4: #b8b8b8;
+    --line: #ececec;
+    --line-strong: #d4d4d4;
+    --card: #ffffff;
+    --accent: #1a1a1a;
+    --accent-fg: #FAFAFA;
+    --pop: #1E40AF;
+    --pop-soft: color-mix(in oklch, var(--pop) 12%, transparent);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --maxw: 1240px;
+    --pad: 24px;
+    --section-gap: 120px;
+    --header-h: 60px;
+  }
+  body[data-bg="lilac"]{
+    --bg:#FAFAFA;
+    --line:#ececec;
+    --line-strong:#d4d4d4;
+    --card:#ffffff;
+  }
+  body[data-bg="lavender"]{
+    --bg:#f4eefb;
+    --line:#e6dbf2;
+    --line-strong:#d2c0e6;
+    --card:#fbf8ff;
+  }
+  body[data-bg="plum"]{
+    --bg:#0e0518;
+    --fg:#f5edff;
+    --fg-2:#d2c2e8;
+    --fg-3:#9484a8;
+    --fg-4:#5a4a72;
+    --line:#231038;
+    --line-strong:#33184f;
+    --card:#170926;
+    --accent:#f5edff;
+    --accent-fg:#0e0518;
+  }
+  body[data-bg="pure"]{
+    --bg:#ffffff;
+    --line:#f0f0f0;
+    --line-strong:#dcdcdc;
+    --card:#fafafa;
+  }
+  [data-theme="dark"]{
+    --bg:#0a0612;
+    --fg:#f5edff;
+    --fg-2:#d0c2e8;
+    --fg-3:#8c7ea8;
+    --fg-4:#4f4264;
+    --line:#1d0f30;
+    --line-strong:#2c1846;
+    --card:#120824;
+    --accent:#f5edff;
+    --accent-fg:#0a0612;
+  }
+  body[data-theme="dark"][data-bg="lavender"]{
+    --bg:#0f0820; --line:#22153a; --line-strong:#32214d; --card:#170c2c;
+  }
+  body[data-theme="dark"][data-bg="plum"]{
+    --bg:#06030d; --line:#180a28; --line-strong:#241040; --card:#0c0418;
+  }
+  body[data-theme="dark"][data-bg="pure"]{
+    --bg:#000000; --line:#1a0a2e; --line-strong:#270e44; --card:#080412;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  ::selection{ background:var(--pop); color:#fff; }
+
+  .mono{ font-family:'JetBrains Mono',ui-monospace,monospace; letter-spacing:-0.01em; }
+  .serif{ font-family:'Instrument Serif',ui-serif,Georgia,serif; font-style:italic; font-weight:400; }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; }
+
+  /* ────────── HEADER ────────── */
+  .hdr{
+    position:sticky; top:0; z-index:50;
+    height:var(--header-h);
+    background:color-mix(in oklch, var(--bg) 78%, transparent);
+    -webkit-backdrop-filter:blur(14px) saturate(150%);
+    backdrop-filter:blur(14px) saturate(150%);
+    border-bottom:1px solid var(--line);
+  }
+  .hdr-inner{
+    max-width:var(--maxw); margin:0 auto; padding:0 var(--pad);
+    height:100%; display:flex; align-items:center; justify-content:space-between; gap:24px;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:-0.01em; }
+  .brand-mark{
+    width:22px; height:22px; border-radius:6px;
+    background:linear-gradient(135deg, var(--pop), color-mix(in oklch, var(--pop) 60%, #000));
+    display:grid; place-items:center; color:#fff;
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600;
+  }
+  .nav{ display:flex; align-items:center; gap:4px; }
+  .nav a{
+    padding:8px 14px; border-radius:999px; color:var(--fg-2);
+    font-size:14px; font-weight:500; transition:all .15s ease;
+  }
+  .nav a:hover{ background:color-mix(in oklch, var(--pop) 10%, transparent); color:var(--pop); }
+  .nav a.active{ background:var(--pop); color:#fff; }
+  .hdr-right{ display:flex; align-items:center; gap:10px; }
+  .hdr-meta{ font-size:12px; color:var(--fg-3); display:flex; align-items:center; gap:8px; }
+  .hdr-dot{ width:6px; height:6px; border-radius:50%; background:var(--pop); box-shadow:0 0 0 3px color-mix(in oklch, var(--pop) 22%, transparent); }
+  .resume-btn{
+    height:34px; padding:0 14px; border-radius:999px;
+    border:1px solid var(--line-strong); background:transparent; color:var(--fg);
+    font-size:13px; font-weight:500; display:inline-flex; align-items:center; gap:6px;
+    transition:all .15s ease;
+  }
+  .resume-btn:hover{ background:var(--pop); color:#fff; border-color:var(--pop); }
+
+  /* ────────── LAYOUT ────────── */
+  .container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--pad); }
+  section{ scroll-margin-top:calc(var(--header-h) + 16px); }
+  .section{ padding-top:var(--section-gap); }
+
+  /* ────────── HERO ────────── */
+  .hero{
+    padding-top:80px;
+    padding-bottom:120px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:""; position:absolute; right:-200px; top:-200px;
+    width:600px; height:600px; border-radius:50%;
+    background:radial-gradient(circle, color-mix(in oklch, var(--pop) 22%, transparent) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap:80px;
+    align-items:center;
+    position:relative;
+  }
+  .hero-left{ padding-top:0; position:static; }
+  .hero-right{ display:flex; flex-direction:column; gap:24px; }
+  .hero-section-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.22em;
+    text-align:center;
+    padding:0;
+    margin:0 0 48px;
+    background:transparent;
+  }
+  .hero-photo{
+    position:relative;
+    border-radius:18px;
+    overflow:hidden;
+    aspect-ratio: 4 / 3;
+    border:1px solid var(--line);
+    background:var(--card);
+    box-shadow:0 30px 80px -40px color-mix(in oklch, var(--pop) 60%, transparent);
+  }
+  .hero-photo img{
+    width:100%; height:100%; object-fit:cover; object-position:center center;
+    display:block;
+  }
+  .hero-stats{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;
+  }
+  .hero-stat{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px 24px;
+    background:color-mix(in oklch, var(--card) 70%, transparent);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    display:flex; flex-direction:column; gap:8px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .hero-stat:hover{ border-color:var(--pop); transform:translateY(-2px); }
+  .hero-stat-num{
+    font-family:'Playfair Display',serif; font-weight:700;
+    font-size:42px; line-height:1; color:var(--pop);
+    letter-spacing:-0.02em;
+    display:flex; align-items:baseline; gap:4px;
+  }
+  .hero-stat-num .unit{ font-size:22px; font-weight:600; }
+  .hero-stat-num .arr{
+    font-size:20px; color:var(--pop); margin-left:4px;
+    transform:translateY(-6px);
+  }
+  .hero-stat-label{
+    font-size:15px; font-weight:700; color:var(--fg);
+    margin-top:6px; letter-spacing:-0.01em;
+  }
+  .hero-stat-desc{
+    font-size:12.5px; color:var(--fg-3); line-height:1.55;
+    white-space:pre-line;
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--pop); text-transform:uppercase; letter-spacing:0.18em;
+    margin-bottom:24px; font-weight:600;
+  }
+  .hero-eyebrow::before{
+    content:""; width:0; height:0;
+  }
+  .hero h1{
+    font-family:'Playfair Display', serif;
+    font-weight:900;
+    font-size: clamp(48px, 5vw, 78px);
+    line-height:0.95;
+    letter-spacing:-0.025em;
+    margin:0 0 20px;
+    color:var(--fg);
+  }
+  .hero h1 .ln{ display:block; }
+  .hero h1 em{
+    font-family:'Playfair Display',serif; font-style:italic; font-weight:700;
+    color:var(--pop);
+  }
+  .hero-role{
+    font-size:20px; font-weight:600; color:var(--fg);
+    letter-spacing:-0.01em;
+    margin:0 0 28px;
+  }
+  .hero-quotes{
+    display:flex; flex-direction:column; gap:14px;
+    margin:0 0 32px;
+  }
+  .hero-quotes p{
+    font-size:14px; line-height:1.6; color:var(--fg-2);
+    margin:0; font-style:italic;
+  }
+  .hero-expertise{
+    margin:0 0 24px;
+  }
+  .hero-section-mini{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--pop); text-transform:uppercase; letter-spacing:0.18em;
+    font-weight:600; margin:0 0 12px;
+  }
+  .hero-tags-grid{
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .hero-tag{
+    font-size:12px; font-weight:500;
+    padding:6px 12px; border-radius:999px;
+    background:color-mix(in oklch, var(--pop) 8%, transparent);
+    color:var(--pop);
+    border:1px solid color-mix(in oklch, var(--pop) 18%, transparent);
+  }
+  .hero-divider{
+    height:1px; background:var(--line); margin:24px 0;
+  }
+  .hero-contact{
+    display:flex; flex-direction:column; gap:14px;
+    padding-top:24px; border-top:1px solid var(--line);
+  }
+  .hero-contact-row{
+    display:flex; align-items:center; gap:14px;
+    font-size:14px; color:var(--fg);
+  }
+  .hero-contact-row .ic{
+    width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--line);
+    display:grid; place-items:center;
+    color:var(--fg-3); flex-shrink:0;
+  }
+  .hero-contact-row a{ color:var(--fg); }
+  .hero-contact-row a:hover{ color:var(--pop); }
+  .tag{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    padding:5px 9px; border:1px solid var(--line-strong); border-radius:999px;
+    color:var(--fg-2);
+  }
+
+  .contact-card{ display:none; }
+
+  /* contact FAB */
+  .fab-wrap{ position:fixed; right:24px; bottom:24px; z-index:60; }
+  .fab-btn{
+    position:relative;
+    width:60px; height:60px; border-radius:50%; border:0;
+    background:var(--pop); color:#fff; cursor:pointer;
+    display:grid; place-items:center;
+    box-shadow:0 14px 36px -10px color-mix(in oklch, var(--pop) 70%, transparent),
+               0 0 0 4px color-mix(in oklch, var(--pop) 18%, transparent);
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s;
+  }
+  .fab-btn:hover{ transform:scale(1.06); }
+  .fab-btn svg{ width:22px; height:22px; transition:transform .3s; }
+  .fab-btn[data-open="1"]{ background:var(--accent); color:var(--accent-fg); }
+  .fab-btn[data-open="1"] svg{ transform:rotate(135deg); }
+  .fab-btn::after{
+    content:""; position:absolute; inset:0; border-radius:50%; pointer-events:none;
+    box-shadow:0 0 0 0 color-mix(in oklch, var(--pop) 60%, transparent);
+    animation: fab-pulse 2.4s cubic-bezier(0,0,.2,1) infinite;
+  }
+  .fab-btn[data-open="1"]::after{ display:none; }
+  @keyframes fab-pulse{
+    0%{ box-shadow:0 0 0 0 color-mix(in oklch, var(--pop) 50%, transparent); }
+    70%{ box-shadow:0 0 0 18px color-mix(in oklch, var(--pop) 0%, transparent); }
+    100%{ box-shadow:0 0 0 0 color-mix(in oklch, var(--pop) 0%, transparent); }
+  }
+  .fab-card{
+    position:absolute; right:0; bottom:76px;
+    width:340px; padding:22px;
+    background:var(--card); color:var(--fg);
+    border:1px solid var(--line); border-radius:18px;
+    box-shadow:0 30px 80px -20px color-mix(in oklch, var(--pop) 50%, transparent),
+               0 4px 20px -4px rgba(0,0,0,.12);
+    transform-origin: bottom right;
+    transform:scale(.92) translateY(8px); opacity:0; pointer-events:none;
+    transition:transform .22s cubic-bezier(.2,.8,.2,1), opacity .18s;
+  }
+  .fab-card[data-open="1"]{ transform:scale(1) translateY(0); opacity:1; pointer-events:auto; }
+  .fab-card-h{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.1em;
+    margin-bottom:14px;
+  }
+  .fab-card-h .dot{ width:6px; height:6px; border-radius:50%; background:var(--pop); display:inline-block; margin-right:6px; vertical-align:middle; }
+  .fab-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:10px 0; border-top:1px solid var(--line);
+    font-size:13px;
+  }
+  .fab-row:first-of-type{ border-top:0; padding-top:2px; }
+  .fab-row .k{ color:var(--fg-3); font-family:'JetBrains Mono',monospace; font-size:11px; }
+  .fab-row .v{ color:var(--fg); font-weight:500; text-align:right; }
+  .fab-row a.v:hover{ color:var(--pop); }
+  .fab-actions{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px;
+    margin-top:16px; padding-top:16px; border-top:1px solid var(--line);
+  }
+  .fab-act{
+    height:38px; display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    border-radius:10px; font-size:13px; font-weight:500;
+    transition:all .15s ease; cursor:pointer; border:0;
+    font-family:inherit;
+  }
+  .fab-act.primary{ background:var(--pop); color:#fff; grid-column:1 / -1; }
+  .fab-act.primary:hover{ background:color-mix(in oklch, var(--pop) 85%, #000); }
+  .fab-act.secondary{ background:transparent; color:var(--fg); border:1px solid var(--line-strong); }
+  .fab-act.secondary:hover{ background:color-mix(in oklch, var(--pop) 8%, transparent); border-color:var(--pop); color:var(--pop); }
+
+  /* ────────── SECTION HEADERS ────────── */
+  .section-head{
+    display:grid;
+    grid-template-columns: 1fr 2fr;
+    gap:60px;
+    padding-bottom:48px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:48px;
+  }
+  .section-num{
+    font-family:'JetBrains Mono',monospace; font-size:12px;
+    color:var(--pop); letter-spacing:0.08em;
+  }
+  .section-title{
+    font-size:42px; letter-spacing:-0.025em; line-height:1.05;
+    font-weight:500; margin:8px 0 0;
+  }
+  .section-title em{ font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; color:var(--pop); }
+  .section-desc{
+    font-size:16px; color:var(--fg-2); line-height:1.6;
+    align-self:end; max-width:520px;
+  }
+
+  /* ────────── EXPERIENCE / EDU LIST ────────── */
+  .filter-bar{ display:flex; align-items:center; gap:6px; margin-bottom:24px; }
+  .filter-chip{
+    appearance:none; border:1px solid var(--line-strong); background:transparent;
+    color:var(--fg-2); font-size:12px; font-weight:500;
+    padding:6px 12px; border-radius:999px; cursor:pointer;
+    transition:all .15s ease;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .filter-chip:hover{ color:var(--pop); border-color:var(--pop); }
+  .filter-chip.on{ background:var(--pop); color:#fff; border-color:var(--pop); }
+  .filter-count{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3); }
+
+  .timeline{ display:flex; flex-direction:column; }
+  .tl-item{
+    display:grid;
+    grid-template-columns: 140px 1fr 200px;
+    gap:32px;
+    padding:24px 8px;
+    border-top:1px solid var(--line);
+    align-items:start;
+    cursor:pointer;
+    transition:background .15s ease;
+    position:relative;
+  }
+  .tl-item:last-child{ border-bottom:1px solid var(--line); }
+  .tl-item:hover{ background:color-mix(in oklch, var(--pop) 5%, transparent); }
+  .tl-item.open{ background:color-mix(in oklch, var(--pop) 7%, transparent); }
+  .tl-date{
+    font-family:'JetBrains Mono',monospace; font-size:12px;
+    color:var(--fg-3); padding-top:4px;
+  }
+  .tl-body{ display:flex; flex-direction:column; gap:6px; }
+  .tl-title{ font-size:18px; font-weight:600; letter-spacing:-0.01em; line-height:1.3; }
+  .tl-org{ font-size:14px; color:var(--fg-3); }
+  .tl-meta{
+    display:flex; flex-direction:column; gap:6px; align-items:flex-start;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3);
+  }
+  .tl-cat{
+    padding:3px 8px; border-radius:4px;
+    background:var(--line); color:var(--fg-2);
+    text-transform:uppercase; letter-spacing:0.08em;
+  }
+  .tl-cat[data-cat="experience"]{ background:color-mix(in oklch, var(--pop) 14%, transparent); color:var(--pop); }
+  .tl-cat[data-cat="activity"]{ background:#fbf0d9; color:#9b6e10; }
+  .tl-cat[data-cat="education"]{ background:#dcf3e6; color:#1d6b3d; }
+  body[data-theme="dark"] .tl-cat[data-cat="activity"]{ background:#2d2510; color:#e3c47a; }
+  body[data-theme="dark"] .tl-cat[data-cat="education"]{ background:#0f2a1f; color:#86d4ad; }
+
+  .tl-expand{
+    grid-column: 2 / 4;
+    overflow:hidden;
+    transition:max-height .25s ease, opacity .2s ease, margin .2s ease, padding .2s ease;
+    max-height:0; opacity:0; padding:0;
+  }
+  .tl-item.open .tl-expand{
+    max-height:600px; opacity:1; padding-top:16px; margin-top:8px;
+    border-top:1px dashed var(--line-strong);
+  }
+  .tl-expand p{ margin:0 0 10px; color:var(--fg-2); font-size:14px; line-height:1.65; }
+  .tl-expand ul{ margin:0; padding-left:18px; color:var(--fg-2); font-size:14px; line-height:1.7; }
+  .tl-expand ul li::marker{ color:var(--pop); }
+  .tl-skills{ display:flex; flex-wrap:wrap; gap:4px; margin-top:12px; }
+  .tl-chev{
+    width:14px; height:14px; color:var(--fg-3); transition:transform .2s ease;
+    margin-top:6px;
+  }
+  .tl-item.open .tl-chev{ transform:rotate(45deg); color:var(--pop); }
+
+  /* ────────── PROJECTS ────────── */
+  .proj-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:20px; }
+  .proj-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s, box-shadow .25s;
+    display:flex; flex-direction:column;
+  }
+  .proj-card:hover{
+    transform:translateY(-3px);
+    border-color:color-mix(in oklch, var(--pop) 40%, var(--line-strong));
+    box-shadow:0 16px 36px -18px color-mix(in oklch, var(--pop) 40%, transparent);
+  }
+  .proj-thumb{
+    aspect-ratio: 16 / 10;
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .proj-thumb-pattern{
+    position:absolute; inset:0;
+    background-image: repeating-linear-gradient(45deg, color-mix(in oklch, var(--pop) 6%, transparent) 0 1px, transparent 1px 14px);
+  }
+  .proj-thumb-label{
+    position:absolute; left:16px; bottom:14px; right:16px;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); display:flex; justify-content:space-between;
+  }
+  .proj-card.acc-1 .proj-thumb{ background: linear-gradient(135deg, color-mix(in oklch, var(--pop) 14%, var(--bg)), var(--bg)); }
+  .proj-card.acc-2 .proj-thumb{ background: linear-gradient(160deg, color-mix(in oklch, var(--pop) 22%, var(--bg)), var(--bg)); }
+  .proj-card.acc-3 .proj-thumb{ background: linear-gradient(200deg, color-mix(in oklch, var(--pop) 30%, var(--bg)), color-mix(in oklch, var(--pop) 8%, var(--bg))); }
+  .proj-card.acc-4 .proj-thumb{ background: linear-gradient(135deg, color-mix(in oklch, var(--pop) 50%, #1a0f3a), #1a0f3a); }
+  .proj-card.acc-4 .proj-thumb-label{ color: rgba(255,255,255,.6); }
+  .proj-card.acc-5 .proj-thumb{ background:linear-gradient(120deg, color-mix(in oklch,var(--pop) 18%, var(--bg)), var(--bg)); }
+  .proj-card.acc-6 .proj-thumb{ background:linear-gradient(150deg, color-mix(in oklch,var(--pop) 26%, var(--bg)), color-mix(in oklch,var(--pop) 6%, var(--bg))); }
+  .proj-card.acc-7 .proj-thumb{ background:linear-gradient(190deg, color-mix(in oklch,var(--pop) 38%, var(--bg)), color-mix(in oklch,var(--pop) 12%, var(--bg))); }
+  .proj-card.acc-8 .proj-thumb{ background:linear-gradient(135deg, color-mix(in oklch,var(--pop) 60%, #1a0f3a), #160a30); }
+  .proj-card.acc-8 .proj-thumb-label{ color:rgba(255,255,255,.6); }
+
+  /* 다크 + Plum 테마: acc-4 / acc-8 thumb 끝색 lift (배경 녹음 방지) */
+  body[data-theme="dark"][data-bg="plum"] .proj-card.acc-4 .proj-thumb{
+    background: linear-gradient(135deg, color-mix(in oklch, var(--pop) 50%, #2a1854), #2a1854);
+  }
+  body[data-theme="dark"][data-bg="plum"] .proj-card.acc-8 .proj-thumb{
+    background: linear-gradient(135deg, color-mix(in oklch, var(--pop) 60%, #261248), #221040);
+  }
+
+  .proj-thumb-icon{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:64px; height:64px; border-radius:14px;
+    background:var(--card); border:1px solid var(--line);
+    display:grid; place-items:center;
+    color:var(--pop);
+    box-shadow:0 8px 22px -10px color-mix(in oklch, var(--pop) 40%, transparent);
+  }
+  .proj-thumb-icon svg{ width:28px; height:28px; }
+  .proj-thumb-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .proj-thumb.has-image .proj-thumb-pattern{ display:none; }
+  .proj-thumb.has-image::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:60px;
+    background:linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,0));
+    pointer-events:none;
+  }
+  .proj-thumb.has-image .proj-thumb-label{ color:rgba(255,255,255,.92); }
+
+  .proj-body{ padding:22px 22px 24px; display:flex; flex-direction:column; gap:14px; flex:1; }
+  .proj-meta-row{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3);
+    text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .proj-title{ font-size:20px; font-weight:600; letter-spacing:-0.015em; line-height:1.25; }
+  .proj-desc{ font-size:14px; color:var(--fg-2); line-height:1.55; flex:1; }
+  .proj-stack{ display:flex; flex-wrap:wrap; gap:5px; }
+  .proj-foot{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:14px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--fg-3);
+  }
+  .proj-arrow{
+    width:28px; height:28px; border-radius:50%; border:1px solid var(--line-strong);
+    display:grid; place-items:center; transition:all .2s ease;
+  }
+  .proj-card:hover .proj-arrow{ background:var(--pop); color:#fff; border-color:var(--pop); transform:rotate(-45deg); }
+
+  /* density */
+  body[data-density="dense"] .section{ padding-top:80px; }
+  body[data-density="dense"] .hero{ padding-top:60px; padding-bottom:60px; }
+  body[data-density="dense"] .tl-item{ padding:18px 8px; }
+  body[data-density="dense"] .proj-grid{ gap:14px; }
+  body[data-density="airy"] .section{ padding-top:160px; }
+  body[data-density="airy"] .hero{ padding-top:120px; padding-bottom:120px; }
+  body[data-density="airy"] .tl-item{ padding:32px 8px; }
+  body[data-density="airy"] .proj-grid{ gap:28px; }
+
+  /* project card as button reset (when detail exists) */
+  .proj-card.is-button{
+    background:var(--card);
+    border:1px solid var(--line);
+    padding:0;
+    text-align:inherit;
+    font:inherit;
+    color:inherit;
+    cursor:pointer;
+    appearance:none;
+    width:100%;
+  }
+  .proj-card.is-button:focus-visible{
+    outline:2px solid var(--pop);
+    outline-offset:3px;
+  }
+
+  /* ============ PROJECT CASE STUDY MODAL ============ */
+  .modal-backdrop{
+    position:fixed; inset:0; z-index:9000;
+    background:color-mix(in oklch, var(--bg) 70%, #000 30%);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    display:flex; justify-content:center; align-items:stretch;
+    animation:modalFade .18s ease-out;
+  }
+  body[data-theme="dark"] .modal-backdrop{
+    background:color-mix(in oklch, #000 70%, transparent);
+  }
+
+  @keyframes modalFade{
+    from{ opacity:0; }
+    to{ opacity:1; }
+  }
+  @keyframes modalRise{
+    from{ opacity:0; transform:translateY(16px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .modal-shell{
+    position:fixed; inset:0;
+    background:var(--bg);
+    border:1px solid var(--line-strong);
+    border-radius:0;
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    animation:modalRise .22s ease-out;
+  }
+
+  .modal-topbar{
+    flex:0 0 auto;
+    height:56px; padding:0 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    gap:16px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg);
+    position:sticky; top:0; z-index:3;
+  }
+  .modal-topbar-left{
+    display:flex; align-items:center; gap:16px; min-width:0;
+  }
+  .modal-eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.12em;
+  }
+  .modal-counter{
+    font-family:'JetBrains Mono',monospace; font-size:12px;
+    color:var(--fg-2); letter-spacing:0.04em;
+    padding:4px 10px; border:none; border-radius:999px;
+    background:color-mix(in oklch, var(--fg) 6%, transparent);
+  }
+  .modal-close{
+    width:36px; height:36px; border-radius:50%;
+    background:transparent; border:none; outline:none;
+    display:grid; place-items:center;
+    color:var(--fg-2);
+    cursor:pointer; transition:all .18s ease;
+    flex:0 0 auto;
+    padding:0;
+  }
+  .modal-close:hover{ background:var(--card); color:var(--fg); }
+  .modal-close:focus-visible{ outline:2px solid var(--pop); outline-offset:2px; }
+  body[data-theme="dark"] .modal-close{ border:none; }
+
+  .modal-viewport{
+    flex:1 1 auto;
+    position:relative;
+    overflow:hidden;
+    overscroll-behavior:contain;
+    touch-action:pan-y;
+  }
+  .modal-track{
+    display:flex;
+    height:100%;
+    width:100%;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1);
+    will-change:transform;
+  }
+  .modal-track.is-dragging{
+    transition:none;
+  }
+
+  .modal-section{
+    flex:0 0 100%;
+    width:100%;
+    min-width:100%;
+    height:100%;
+    overflow-y:auto;
+    overflow-x:hidden;
+    overscroll-behavior:contain;
+    padding:48px max(24px, calc((100% - var(--maxw)) / 2)) 96px;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+  .modal-section[aria-hidden="true"]{
+    pointer-events:none;
+  }
+
+  .modal-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:44px; height:44px; border-radius:50%;
+    background:var(--card);
+    border:none; outline:none;
+    color:var(--fg);
+    display:grid; place-items:center;
+    cursor:pointer;
+    z-index:2;
+    padding:0;
+    box-shadow:0 2px 10px -4px color-mix(in oklch, var(--fg) 24%, transparent);
+    transition:background .18s ease, color .18s ease, opacity .18s ease, transform .18s ease;
+  }
+  .modal-nav:hover:not(:disabled){
+    background:var(--pop); color:#fff;
+  }
+  .modal-nav:focus-visible{ outline:2px solid var(--pop); outline-offset:2px; }
+  .modal-nav:disabled{
+    opacity:.35; pointer-events:none; cursor:default;
+  }
+  .modal-nav-prev{ left:16px; }
+  .modal-nav-next{ right:16px; }
+
+  .modal-dots{
+    position:absolute;
+    left:50%; bottom:24px;
+    transform:translateX(-50%);
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px;
+    background:color-mix(in oklch, var(--bg) 70%, transparent);
+    border:1px solid var(--line);
+    border-radius:999px;
+    backdrop-filter:blur(8px);
+    z-index:2;
+  }
+  .modal-dot{
+    width:8px; height:8px; border-radius:999px;
+    background:var(--line-strong);
+    border:none; outline:none; padding:0;
+    cursor:pointer;
+    transition:width .25s cubic-bezier(.2,.8,.2,1), background .18s ease;
+  }
+  .modal-dot:hover{ background:var(--fg-3); }
+  .modal-dot:focus-visible{ outline:2px solid var(--pop); outline-offset:2px; }
+  .modal-dot[aria-current="true"]{
+    width:24px;
+    background:var(--pop);
+  }
+
+  .ms-eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.12em;
+    margin-bottom:24px;
+  }
+  .ms-eyebrow-main{ color:var(--pop); }
+  .ms-headline{
+    font-size:clamp(24px, 3.2vw, 36px);
+    font-weight:600; letter-spacing:-0.02em; line-height:1.25;
+    margin:0 0 24px;
+    color:var(--fg);
+  }
+  .ms-headline-lg{
+    font-size:clamp(28px, 3.8vw, 44px);
+    max-width:36ch;
+  }
+  .ms-headline-serif{
+    font-family:'Instrument Serif',serif; font-style:italic; font-weight:400;
+    letter-spacing:-0.01em;
+  }
+
+  /* HERO (01) */
+  .ms-hero{}
+  .ms-hero-title{
+    font-size:clamp(40px, 5vw, 64px);
+    font-weight:600; letter-spacing:-0.025em; line-height:1.1;
+    margin:0 0 16px;
+  }
+  .ms-hero-tagline{
+    font-size:clamp(16px, 1.6vw, 20px);
+    color:var(--fg-2); line-height:1.5;
+    margin:0 0 40px;
+    max-width:720px;
+  }
+  .ms-hero-meta{
+    display:flex; flex-wrap:wrap; gap:32px;
+    padding-top:24px; border-top:1px solid var(--line);
+  }
+  .ms-hero-meta > span{
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .ms-meta-k{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.1em;
+  }
+  .ms-meta-v{
+    font-size:14px; color:var(--fg); font-weight:500;
+  }
+
+  /* NEEDS (02) */
+  .ms-needs{}
+  .ms-needs-body p{
+    font-size:16px; color:var(--fg-2); line-height:1.65;
+    margin:0 0 24px;
+  }
+  .ms-bullets{
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .ms-bullets li{
+    position:relative; padding-left:20px;
+    color:var(--fg-2); font-size:14px; line-height:1.6;
+  }
+  .ms-bullets li::before{
+    content:""; position:absolute; left:0; top:9px;
+    width:6px; height:6px; border-radius:50%;
+    background:var(--pop);
+  }
+
+  /* SOLUTION (03) — MAIN */
+  .ms-solution{
+    background:color-mix(in oklch, var(--pop) 3%, var(--bg));
+    box-shadow:inset 4px 0 0 var(--pop);
+  }
+  .ms-phase-grid{
+    display:grid; grid-template-columns:1fr; gap:16px;
+    margin:32px 0 40px;
+  }
+  .ms-phase{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .ms-phase-num{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--pop); letter-spacing:0.1em;
+  }
+  .ms-phase-title{
+    font-size:18px; font-weight:600; letter-spacing:-0.015em;
+  }
+  .ms-phase-body{
+    font-size:14px; color:var(--fg-2); line-height:1.6;
+    margin:0; flex:1;
+  }
+  .ms-phase-artifact{
+    margin-top:8px; padding-top:12px;
+    border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.02em;
+  }
+  .ms-deliverables{
+    padding-top:24px; border-top:1px solid var(--line);
+  }
+  .ms-deliv-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.1em;
+    margin-bottom:12px;
+  }
+  .ms-deliv-chips{
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .ms-chip{
+    display:inline-flex; align-items:center;
+    padding:6px 12px;
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    font-size:13px; color:var(--fg);
+  }
+
+  /* OUTCOME (04) */
+  .ms-outcome{}
+  .ms-outcome-metrics{
+    display:grid; grid-template-columns:1fr; gap:16px;
+    margin:32px 0 40px;
+  }
+  .ms-metric{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px 24px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .ms-metric-value{
+    font-size:clamp(32px, 4vw, 48px);
+    font-weight:700; letter-spacing:-0.025em; line-height:1;
+    color:var(--fg);
+  }
+  .ms-metric-label{
+    font-size:13px; color:var(--fg-3);
+  }
+  .ms-quote{
+    margin:0; padding:32px 24px;
+    border-left:3px solid var(--pop);
+    background:color-mix(in oklch, var(--pop) 4%, var(--bg));
+  }
+  .ms-quote p{
+    font-family:'Instrument Serif',serif; font-style:italic; font-weight:400;
+    font-size:clamp(20px, 2.2vw, 26px);
+    line-height:1.45; margin:0 0 12px;
+    color:var(--fg-2);
+  }
+  .ms-quote cite{
+    font-style:normal;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.1em;
+  }
+
+  /* REFLECTION (05) */
+  .ms-reflection{
+    max-width:640px;
+  }
+  .ms-reflection-body{
+    font-size:16px; color:var(--fg-2); line-height:1.7;
+    margin:0 0 24px;
+  }
+  .ms-takeaways{
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .ms-takeaways li{
+    position:relative; padding:16px 16px 16px 36px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    color:var(--fg-2); font-size:14px; line-height:1.55;
+  }
+  .ms-takeaways li::before{
+    content:"→"; position:absolute; left:14px; top:16px;
+    color:var(--pop); font-weight:600;
+  }
+
+  /* ============ PROJECT 01 EXTENSIONS (compact) ============ */
+  /* HERO: 좌우 2컬럼 (이미지 + 클라이언트) */
+  .ms-hero-compact{
+    margin-top:28px;
+    display:grid; grid-template-columns:1fr; gap:20px;
+    align-items:start;
+  }
+  .ms-hero-image{
+    margin:0; padding:0;
+    border:1px solid var(--line); border-radius:var(--radius-sm);
+    overflow:hidden; background:var(--card);
+    width:100%; max-width:280px;
+  }
+  .ms-hero-image img{ display:block; width:100%; height:100%; object-fit:cover; }
+
+  /* 공통 이미지 placeholder */
+  .ms-image-ph{
+    width:100%; height:100%;
+    display:grid; place-items:center; gap:6px;
+    background-image:
+      repeating-linear-gradient(45deg,
+        color-mix(in oklch, var(--pop) 8%, transparent) 0 1px,
+        transparent 1px 10px),
+      linear-gradient(135deg,
+        color-mix(in oklch, var(--pop) 4%, var(--card)),
+        var(--card));
+    color:var(--fg-3);
+  }
+  .ms-image-ph-tag{
+    font-family:'JetBrains Mono',monospace; font-size:9px;
+    letter-spacing:0.18em; padding:3px 8px;
+    border:1px solid var(--line-strong); border-radius:999px; background:var(--bg);
+  }
+  .ms-image-ph-text{ font-size:11px; color:var(--fg-3); text-align:center; padding:0 12px; }
+
+  /* HERO: 클라이언트 칩 그룹 */
+  .ms-clients{ min-width:0; }
+  .ms-clients-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.14em;
+    margin-bottom:12px;
+  }
+  .ms-clients-groups{ display:grid; grid-template-columns:1fr; gap:14px; }
+  .ms-clients-group-name{ font-size:11px; color:var(--fg-3); margin-bottom:6px; }
+  .ms-clients-chips{ display:flex; flex-wrap:wrap; gap:4px; }
+  .ms-client-chip{
+    display:inline-flex; align-items:center;
+    padding:4px 10px; font-size:12px; color:var(--fg);
+    background:var(--card); border:1px solid var(--line-strong); border-radius:999px;
+  }
+
+  /* SOLUTION: phase bullets */
+  .ms-phase-bullets{
+    list-style:none; padding:0; margin:6px 0 10px;
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .ms-phase-bullets li{
+    position:relative; padding-left:12px;
+    font-size:12.5px; color:var(--fg-2); line-height:1.5;
+  }
+  .ms-phase-bullets li::before{
+    content:""; position:absolute; left:0; top:8px;
+    width:3px; height:3px; border-radius:50%;
+    background:color-mix(in oklch, var(--pop) 70%, var(--fg-3));
+  }
+
+  /* SOLUTION: 단계 사이 화살표 (오밀조밀) */
+  .ms-phase-grid-flow{ align-items:stretch; gap:10px; }
+  .ms-phase-grid-flow .ms-phase{ padding:14px; }
+  .ms-phase-arrow{
+    display:grid; place-items:center; color:var(--pop);
+    transform:rotate(90deg); padding:2px 0;
+  }
+
+  /* OUTCOME: Role flow */
+  .ms-roleflow{
+    margin:18px 0 22px; padding:14px 16px;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-sm);
+  }
+  .ms-roleflow-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.14em;
+    margin-bottom:10px;
+  }
+  .ms-roleflow-steps{
+    list-style:none; padding:0; margin:0;
+    display:flex; flex-direction:column; gap:8px;
+    position:relative;
+  }
+  .ms-roleflow-step{
+    display:flex; align-items:flex-start; gap:10px;
+    padding:8px 10px; background:var(--bg);
+    border:1px solid var(--line); border-radius:6px; position:relative;
+  }
+  .ms-roleflow-step + .ms-roleflow-step::before{
+    content:"↓"; position:absolute; left:18px; top:-12px;
+    color:var(--pop); font-size:11px; line-height:1;
+  }
+  .ms-roleflow-step-num{
+    flex:0 0 auto;
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--pop); padding-top:2px;
+  }
+  .ms-roleflow-step-text{ font-size:12.5px; color:var(--fg); line-height:1.5; }
+
+  /* REFLECTION: 정성 피드백 카드 */
+  .ms-reflection.has-feedback,
+  .ms-reflection:has(.ms-feedback-grid){ max-width:none; }
+  .ms-feedback-grid{
+    display:grid; grid-template-columns:1fr; gap:10px;
+    margin-top:18px;
+  }
+  .ms-feedback-card{
+    margin:0; padding:14px 16px;
+    background:var(--card); border:1px solid var(--line);
+    border-left:2px solid var(--pop); border-radius:6px;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .ms-feedback-tag{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    color:var(--pop); text-transform:uppercase; letter-spacing:0.14em;
+  }
+  .ms-feedback-quote{
+    margin:0; font-family:'Instrument Serif',serif; font-style:italic;
+    font-size:15px; line-height:1.5; color:var(--fg-2);
+  }
+
+  /* ============ PROJECT 01 SCROLL LAYOUT ============ */
+  .modal-viewport-scroll{
+    overflow-y:auto; overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+  }
+  .ms-scroll{
+    max-width:1120px;
+    margin:0 auto;
+    padding:64px 36px 128px;
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  .ms-scroll-head{
+    margin:0 0 40px;
+    padding-bottom:26px;
+    border-bottom:1px solid var(--line);
+  }
+  .ms-scroll-title{
+    margin:0;
+    font-family:'Playfair Display', serif;
+    font-size:clamp(36px, 4vw, 46px);
+    line-height:1.25; letter-spacing:-0.01em;
+    color:var(--fg);
+  }
+  .ms-sec{ margin:54px 0 0; }
+  .ms-sec:first-of-type{ margin-top:14px; }
+  .ms-sec-head{
+    display:flex; align-items:baseline; gap:16px;
+    margin:0 0 20px;
+  }
+  .ms-sec-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px; letter-spacing:0.18em;
+    color:var(--pop);
+  }
+  .ms-sec-label{
+    margin:0;
+    font-size:24px; font-weight:600; letter-spacing:-0.005em;
+    color:var(--fg);
+  }
+  .ms-sec-lead{
+    margin:0 0 22px;
+    font-size:17.5px; line-height:1.7; color:var(--fg-2);
+  }
+
+  /* Section image (본문 폭 풀로) + 캡션 */
+  .ms-sec-image{
+    margin:14px 0 18px; padding:0;
+    width:100%;
+  }
+  .ms-sec-image-frame{
+    border:1px solid var(--line); border-radius:var(--radius-sm);
+    overflow:hidden; background:var(--card);
+    width:100%;
+  }
+  .ms-sec-image-frame img{ display:block; width:100%; height:100%; object-fit:cover; }
+  .ms-sec-image-cap{
+    margin-top:8px;
+    font-size:11.5px; color:var(--fg-3); line-height:1.4;
+    text-align:left;
+  }
+
+  /* Client block — 로고 그리드 */
+  .ms-clientblock{
+    margin-top:22px;
+    padding:18px 0 0;
+    border-top:1px solid var(--line-strong);
+  }
+  .ms-clientblock-label{
+    display:inline-flex; align-items:center;
+    padding:4px 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.16em;
+    color:var(--pop);
+    background:color-mix(in oklch, var(--pop) 10%, transparent);
+    border-radius:4px;
+    margin-bottom:16px;
+  }
+  .ms-clientblock-list{ display:flex; flex-direction:column; gap:22px; }
+  .ms-clientgroup{ display:flex; flex-direction:column; gap:10px; }
+  .ms-clientgroup-label{
+    font-size:13px; font-weight:500; color:var(--fg);
+    display:flex; align-items:center; gap:8px;
+  }
+  .ms-clientgroup-label::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--pop);
+    flex:0 0 auto;
+  }
+  .ms-client-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:10px;
+  }
+  .ms-client-item{
+    display:flex; flex-direction:column; gap:8px;
+    min-width:0;
+  }
+  .ms-client-cell{
+    aspect-ratio:4 / 3;
+    display:flex; align-items:center; justify-content:center;
+    padding:6px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    overflow:hidden;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .ms-client-cell:hover{
+    border-color:var(--line-strong);
+    background:color-mix(in oklch, var(--pop) 3%, var(--card));
+  }
+  .ms-client-cell img{
+    max-width:100%; max-height:100%;
+    width:auto; height:auto;
+    object-fit:contain;
+  }
+  .ms-client-cell-fallback{
+    font-size:13px; color:var(--fg-2); line-height:1.3;
+    text-align:center; word-break:keep-all;
+  }
+  .ms-client-name{
+    font-size:12.5px; font-weight:500; color:var(--fg-2); line-height:1.4;
+    text-align:center; word-break:keep-all;
+  }
+
+  /* Needs — 단순 텍스트 리스트 */
+  .ms-needlist{
+    list-style:none; margin:0; padding:0;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .ms-needlist li{
+    position:relative; padding-left:24px;
+    font-size:17px; line-height:1.65; color:var(--fg);
+  }
+  .ms-needlist li::before{
+    content:""; position:absolute; left:0; top:14px;
+    width:14px; height:1px; background:var(--pop);
+  }
+
+  /* Solution — STEP 라벨로 외부 섹션 번호와 시각 차별화 */
+  .ms-sollist{ display:flex; flex-direction:column; gap:34px; }
+  .ms-sol{ padding:0; }
+  .ms-sol-head{ display:flex; align-items:center; gap:14px; margin:0 0 16px; flex-wrap:wrap; }
+  .ms-sol-step{
+    display:inline-flex; align-items:center;
+    padding:5px 12px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px; letter-spacing:0.16em;
+    color:var(--pop);
+    background:color-mix(in oklch, var(--pop) 10%, transparent);
+    border-radius:4px;
+  }
+  .ms-sol-title{
+    margin:0; font-size:18px; font-weight:600; color:var(--fg);
+    letter-spacing:-0.005em;
+  }
+  .ms-sol-items{
+    list-style:none; margin:0; padding:0 0 0 28px;
+    display:flex; flex-direction:column; gap:8px;
+    border-left:2px solid var(--line);
+  }
+  .ms-sol-items li{
+    position:relative; padding-left:18px;
+    font-size:16.5px; line-height:1.6; color:var(--fg-2);
+  }
+  .ms-sol-items li::before{
+    content:""; position:absolute; left:0; top:9px;
+    width:4px; height:4px; border-radius:50%;
+    background:color-mix(in oklch, var(--pop) 70%, var(--fg-3));
+  }
+
+  /* Outcome */
+  .ms-out-block{ margin:0 0 18px; }
+  .ms-out-block:last-child{ margin-bottom:0; }
+  .ms-out-key{
+    display:inline-flex; align-items:center;
+    padding:4px 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--pop);
+    background:color-mix(in oklch, var(--pop) 10%, transparent);
+    border-radius:4px;
+    margin-bottom:10px;
+  }
+  .ms-out-roleline{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px;
+    font-size:16.5px; line-height:1.55; color:var(--fg);
+  }
+  .ms-out-rolestep{}
+  .ms-out-rolesep{ color:var(--pop); font-size:13px; }
+
+  /* Outcome — 정성적 결과 텍스트 리스트 */
+  .ms-out-notes{
+    list-style:none; margin:0; padding:0;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .ms-out-notes li{
+    position:relative; padding-left:22px;
+    font-size:15.5px; line-height:1.65; color:var(--fg);
+  }
+  .ms-out-notes li::before{
+    content:""; position:absolute; left:0; top:13px;
+    width:12px; height:1px; background:var(--pop);
+  }
+
+  /* Outcome — 결과 이미지 4개 그리드 */
+  .ms-out-images{ margin:0 0 18px; padding:0; }
+  .ms-out-images-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:10px;
+  }
+  .ms-out-images-cell{
+    aspect-ratio:16 / 9;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    overflow:hidden;
+    display:block;
+  }
+  .ms-out-images-cell img{
+    display:block;
+    width:100%; height:100%;
+    object-fit:cover;
+    image-rendering:-webkit-optimize-contrast;
+    image-rendering:crisp-edges;
+  }
+
+  /* Result — 활용 툴: 라벨 앞 도트 + 도구는 둥근 칩 */
+  .ms-tools{ margin:0 0 16px; }
+  .ms-tools-label{
+    display:flex; align-items:center; gap:8px;
+    font-size:12px; font-weight:600; color:var(--fg-2);
+    margin-bottom:10px;
+  }
+  .ms-tools-label::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--pop);
+    flex:0 0 auto;
+  }
+  .ms-tools-list{
+    display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .ms-tool-chip{
+    display:inline-flex; align-items:center;
+    padding:5px 12px;
+    font-size:12px; font-weight:500;
+    color:var(--fg-2);
+    background:var(--card);
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+  }
+
+  /* Result — 표 형식 */
+  .ms-out-table{
+    width:100%; border-collapse:collapse;
+    font-size:13.5px;
+  }
+  .ms-out-table thead th{
+    text-align:left;
+    font-size:12px; font-weight:600; letter-spacing:-0.005em;
+    color:var(--fg-3);
+    padding:10px 12px;
+    border-bottom:1px solid var(--line-strong);
+  }
+  .ms-out-table thead th:last-child{ text-align:right; }
+  .ms-out-table tbody td{
+    padding:12px;
+    border-bottom:1px solid var(--line);
+    color:var(--fg); line-height:1.5;
+    vertical-align:middle;
+  }
+  .ms-out-table tbody tr:last-child td{ border-bottom:none; }
+  .ms-out-table-num{
+    text-align:right;
+    font-family:'Playfair Display', serif;
+    font-size:18px; color:var(--fg);
+    white-space:nowrap;
+  }
+
+  @media (min-width:768px){
+    .modal-shell{
+      inset:24px;
+      border-radius:var(--radius);
+    }
+    .modal-section{
+      padding:64px max(48px, calc((100% - var(--maxw)) / 2)) 96px;
+    }
+    .ms-needs{
+      display:grid; grid-template-columns:1fr 1.4fr; gap:48px; align-content:start;
+    }
+    .ms-solution{
+      padding-top:80px; padding-bottom:120px;
+    }
+    .ms-phase-grid{
+      grid-template-columns:repeat(2, 1fr);
+    }
+    .ms-outcome-metrics{
+      grid-template-columns:repeat(3, 1fr);
+    }
+    /* PROJECT 01 컴팩트 — 768px 이상 */
+    .ms-hero-compact{ grid-template-columns:280px 1fr; gap:28px; }
+    .ms-clients-groups{ grid-template-columns:1fr 1fr; gap:18px; }
+    .ms-phase-grid-flow{ grid-template-columns:1fr auto 1fr auto 1fr; }
+    .ms-phase-arrow{ transform:none; }
+    .ms-roleflow-steps{ flex-direction:row; gap:0; }
+    .ms-roleflow-step{ flex:1; margin-right:22px; }
+    .ms-roleflow-step:last-child{ margin-right:0; }
+    .ms-roleflow-step + .ms-roleflow-step::before{
+      content:"→"; left:-16px; top:50%; transform:translateY(-50%); font-size:13px;
+    }
+    .ms-feedback-grid{ grid-template-columns:repeat(3, 1fr); gap:12px; }
+
+    /* PROJECT 01 SCROLL — 768px+ */
+    .ms-scroll{ padding:80px 56px 144px; }
+    .ms-sec{ margin:68px 0 0; }
+  }
+
+  @media (min-width:1024px){
+    .modal-section{
+      padding:80px max(80px, calc((100% - var(--maxw)) / 2)) 120px;
+    }
+    .ms-solution{
+      padding-top:96px; padding-bottom:140px;
+    }
+    .ms-phase-grid{
+      grid-template-columns:repeat(3, 1fr);
+    }
+    /* PROJECT 01 컴팩트 — 1024px 이상에서 flow 5트랙 유지 */
+    .ms-phase-grid.ms-phase-grid-flow{
+      grid-template-columns:1fr auto 1fr auto 1fr;
+    }
+  }
+
+  @media (max-width:480px){
+    .modal-topbar{ padding:0 16px; }
+    .modal-section{ padding:40px 20px 88px; }
+    .ms-solution{ padding:48px 20px 88px; }
+    .ms-hero-meta{ gap:20px; }
+    .modal-nav{ display:none; }
+    .modal-counter{ font-size:11px; padding:3px 8px; }
+    /* PROJECT 01 컴팩트 — 480px 이하 */
+    .ms-hero-compact{ margin-top:20px; gap:16px; }
+    .ms-hero-image{ max-width:100%; }
+    .ms-roleflow{ padding:12px; }
+    .ms-feedback-card{ padding:12px 14px; }
+    /* SCROLL 모바일 */
+    .ms-scroll{ padding:32px 20px 72px; }
+    .ms-sec{ margin:28px 0 0; }
+    .ms-sec-image{ max-width:100%; }
+    .ms-client-grid{ grid-template-columns:repeat(2, 1fr); gap:8px; }
+    .ms-client-cell{ padding:10px; }
+    .ms-client-name{ font-size:11.5px; }
+    .ms-out-table thead th,
+    .ms-out-table tbody td{ padding:10px 8px; }
+    .ms-out-table-num{ font-size:16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .modal-backdrop,
+    .modal-shell{
+      animation:none;
+      transition:none;
+    }
+    .modal-track{
+      transition:none;
+    }
+  }
+
+  /* hero variants */
+  body[data-hero="serif"] .hero h1{ font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; letter-spacing:-0.02em; }
+  body[data-hero="mono"] .hero h1{ font-family:'JetBrains Mono',monospace; letter-spacing:-0.05em; font-size:clamp(40px,5vw,72px); line-height:1.05; }
+  body[data-hero="display"] .hero h1{ font-weight:700; letter-spacing:-0.04em; }
+
+  /* footer */
+  footer{
+    margin-top:160px; padding:60px 0 80px;
+    border-top:1px solid var(--line);
+    background:linear-gradient(180deg, transparent, color-mix(in oklch, var(--pop) 6%, transparent));
+  }
+  .foot-grid{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:40px;
+    margin-bottom:60px;
+  }
+  .foot-cta{ font-size:42px; line-height:1.05; letter-spacing:-0.025em; font-weight:500; }
+  .foot-cta em{ font-family:'Instrument Serif',serif; font-style:italic; font-weight:400; color:var(--pop); }
+  .foot-col h5{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--fg-3); text-transform:uppercase; letter-spacing:0.1em;
+    margin:0 0 14px; font-weight:500;
+  }
+  .foot-col a{ display:block; padding:6px 0; color:var(--fg-2); font-size:14px; }
+  .foot-col a:hover{ color:var(--pop); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:24px; border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3);
+  }
+
+  @media (max-width: 960px){
+    .hero-grid{ grid-template-columns:1fr; gap:48px; }
+    .section-head{ grid-template-columns:1fr; gap:20px; }
+    .tl-item{ grid-template-columns: 100px 1fr; }
+    .tl-meta{ grid-column:2; flex-direction:row; flex-wrap:wrap; }
+    .proj-grid{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+    .nav{ display:none; }
+  }
+</style>
+</head>
+<body data-theme="light" data-bg="lilac" data-density="regular" data-hero="sans">
+
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+
+
+
+
+
+(() => {
+  const { useState, useEffect, useMemo } = React;
+
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "light",
+    "bgTone": "lilac",
+    "density": "regular",
+    "heroStyle": "sans",
+    "popColor": "#1E40AF",
+    "name": "KIM HAK JONG",
+    "tagline": "AI를 일하는 방식에 끼워 넣는 사람",
+    "subline": "프로덕트 관점에서 문제를 정의하고, 모델·도구·코드를 엮어 실제로 굴러가는 결과물을 만듭니다."
+  } /*EDITMODE-END*/;
+
+  const CONTACT = {
+    name: "KIM HAK JONG",
+    nameKo: "김 학 종",
+    role: "Manager / AI Planner",
+    email: "studybell@naver.com",
+    phone: "010-4752-6164",
+    location: "Seoul, KR",
+    quotes: [
+    { strong: "'신독(愼獨)'의 자세로 직무에 임하겠습니다.", caption: "" },
+    { strong: "", caption: "*신독이란? '홀로 있을 때에도 도리에 어긋나는 행동을 하지 않고 삼가는 태도'" }],
+
+    stats: [
+    { num: "80", unit: "회", arrow: true, label: "교육 기획 및 운영", desc: "주요 기업 및 기관을 대상\n교육 문의 응대 및 커리큘럼·\n교안 제작" },
+    { num: "70", unit: "%", arrow: false, label: "업무 생산성 향상", desc: "생성형 AI를 활용한\n맞춤형 업무 도구 제작 및\n업무 리소스·프로세스 단축" },
+    { num: "10", unit: "회", arrow: false, label: "대외활동", desc: "AI 커뮤니티 및 기획 관련\n대외활동 수행" }],
+
+    expertise: ["교육 기획·교수설계", "AX 전환", "생성형 AI 교육·컨설팅", "현장 강의 경험"],
+
+    links: [
+    { label: "GitHub", href: "#", k: "git" },
+    { label: "LinkedIn", href: "#", k: "in" },
+    { label: "Notion", href: "#", k: "no" }]
+
+  };
+
+  const TIMELINE = [
+  { cat: "experience", date: "2024.06 – 현재", title: "Product Operations Intern", org: "스타트업 / B2B SaaS",
+    desc: "운영 자동화 워크플로 설계와 사내 LLM 도구 도입을 주도. 반복 업무를 시간 단위로 줄였습니다.",
+    bullets: ["Notion·Slack·Linear 데이터 흐름을 매핑해 중복 입력 70% 감소", "Claude API + Google Sheets로 고객 피드백 자동 분류 파이프라인 구축", "주간 리포트 작성 자동화 — 6시간 → 30분"],
+    skills: ["Python", "Claude API", "Notion", "Linear"] },
+  { cat: "experience", date: "2023.09 – 2024.05", title: "Marketing Assistant", org: "OO 에이전시",
+    desc: "디지털 캠페인 백오피스에서 데이터·카피·소재 운영을 담당했습니다.",
+    bullets: ["GA4 / Looker 대시보드를 직접 셋업해 의사결정 사이클 단축", "AI 카피 보조 워크플로 도입으로 A/B 자산 생산량 3배"],
+    skills: ["GA4", "Looker", "Figma"] },
+  { cat: "activity", date: "2024.03 – 2024.08", title: "AI 부트캠프 4기 — 우수상", org: "OO 부트캠프",
+    desc: "RAG 기반 사내 지식 검색 솔루션을 팀 리더로 6주간 빌드. 최종 데모데이 우수상 수상.",
+    bullets: ["임베딩 + 하이브리드 검색 설계, 사용자 테스트 12회", "백엔드 API 설계 및 PM 역할 동시 수행"],
+    skills: ["LangChain", "FastAPI", "Pinecone"] },
+  { cat: "activity", date: "2023.05 – 2023.12", title: "교내 창업 동아리 — 운영진", org: "OO대학교",
+    desc: "월 1회 데모데이 기획·운영, 외부 멘토 섭외 및 60+명 커뮤니티 관리.",
+    skills: ["Community", "Event Ops"] },
+  { cat: "education", date: "2020.03 – 2024.02", title: "OO대학교 경영학과 학사", org: "GPA 3.8 / 4.5",
+    desc: "복수전공: 데이터사이언스. 졸업 프로젝트로 이커머스 전환율 예측 모델을 진행했습니다.",
+    skills: ["Statistics", "SQL", "R"] },
+  { cat: "education", date: "2022.07 – 2022.12", title: "Coursera — DeepLearning.AI Specialization", org: "Andrew Ng",
+    desc: "신경망 기초부터 시퀀스 모델까지 5개 코스 수료. 노트와 실습 코드는 GitHub에 정리.",
+    skills: ["Python", "TensorFlow"] }];
+
+
+  const PROJECTS = [
+  { label: "PROJECT 01", year: "2024–2025", role: "Education Consultant",
+    title: "고객사 교육·컨설팅 문의 응대",
+    desc: "고객사 AI 도입 요구 접수부터 업무 맥락 분석, 맞춤형 커리큘럼·교안 설계·제작까지 수행한 교육 및 컨설팅 프로젝트.",
+    stack: ["AI 교육 컨설팅", "맞춤 커리큘럼 설계", "교안 제작"], accent: 3, icon: "compass",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "고객사 AI 도입 요구 접수부터 업무 맥락 분석, 맞춤형 커리큘럼·교안 설계·제작까지 수행한 교육 및 컨설팅 프로젝트",
+          image: { src: "프로젝트 이미지/Project 01/교육자료 샘샘.png",
+                   alt: "교육자료 예시",
+                   caption: "*교육자료 예시", ratio: "16 / 9" },
+          clients: [
+            { group: "공기업·공공기관", items: [
+              { name: "안전보건공단",       logo: "프로젝트 이미지/클라이언트 이미지/안전보건공단.gif", scale: 1.6 },
+              { name: "한국생산기술연구원", logo: "프로젝트 이미지/클라이언트 이미지/한국생산기술연구원-removebg-preview.png" },
+              { name: "국회",              logo: "프로젝트 이미지/클라이언트 이미지/국회 이미지.svg" }
+            ]},
+            { group: "기업", items: [
+              { name: "한국무역협회", logo: "프로젝트 이미지/클라이언트 이미지/한국무역협회 배경 제거.png" },
+              { name: "해태제과",     logo: "프로젝트 이미지/클라이언트 이미지/해태제과.png" },
+              { name: "아이보스",     logo: "프로젝트 이미지/클라이언트 이미지/아이보스-removebg-preview.png" }
+            ]}
+          ]
+        },
+        needs: [
+          "기업 내 생성형 AI 도입을 위한 교육·컨설팅 필요",
+          "이론 중심의 AI 교육이 아닌 직무·산업군 특화 교육 요구",
+          "특정 부서·직무 맞춤형 커리큘럼 요청"
+        ],
+        solution: [
+          { title: "고객사 업무 맥락 분석",
+            items: ["의뢰 부서 주요 업무 프로세스 파악",
+                    "사용 중인 문서 양식 및 결과물 형태 확인",
+                    "고객사 실제 업무 문서·프로세스 제공 → 해당 맥락 기반 맞춤 커리큘럼·교안 제작"] },
+          { title: "맞춤 커리큘럼 설계",
+            items: ["업무 단계별 AI 활용 지점 분석",
+                    "해당 부서 업무 흐름 기반 커리큘럼 구조 설계",
+                    "직무·산업군별 맞춤 순서 및 내용 구성"] },
+          { title: "교안 제작",
+            items: ["실무에 적용 가능한 프롬프트 가이드북 및 템플릿 제공",
+                    "업무 특화 AI 기능·서비스 활용법 중심 구성",
+                    "현장 바로 적용 가능한 실무 팁·노하우 수록"] }
+        ],
+        outcome: {
+          role: ["고객사 문의 및 응대",
+                 "고객사 요구사항 분석 및 관련 자료 리서치",
+                 "맞춤 커리큘럼 설계 및 교안 제작"],
+          images: [
+            { src: "프로젝트 이미지/Project 01/결과 이미지 1.png", alt: "교육자료 제작 이미지 1" },
+            { src: "프로젝트 이미지/Project 01/결과 이미지 2.png", alt: "교육자료 제작 이미지 2" },
+            { src: "프로젝트 이미지/Project 01/결과 이미지 3.png?v=2", alt: "교육자료 제작 이미지 3" },
+            { src: "프로젝트 이미지/Project 01/결과 이미지 4.png?v=2", alt: "교육자료 제작 이미지 4" }
+          ],
+          imagesCaption: "*교육자료 제작 이미지",
+          tools: ["ChatGPT", "Gemini", "Claude", "NotebookLM", "Genspark",
+                  "Midjourney", "ImageFX", "NanoBanana", "Gamma", "Skywork"],
+          metrics: [
+            { label: "누적 커리큘럼·교안 제작", value: "80회" },
+            { label: "평균 교육 만족도",         value: "4.7 / 5.0" },
+            { label: "추가·연계 교육 재의뢰",     value: "30회" }
+          ]
+        }
+      }
+    } },
+  { label: "PROJECT 02", year: "2025", role: "Curriculum Developer",
+    title: "Agent 제작 커리큘럼 개발",
+    desc: "비개발자·비전공자를 위한 Agent 제작 커리큘럼 기획·개발.",
+    stack: ["AI 트렌드 리서치", "커리큘럼 설계", "교안·실습 제작"], accent: 5, icon: "bolt",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "비개발자·비전공자를 위한 Agent 제작 커리큘럼 기획·개발",
+          image: { src: "프로젝트 이미지/project 02/메인 이미지.png",
+                   alt: "Agent 제작 커리큘럼 메인 이미지",
+                   ratio: "16 / 9" }
+        },
+        needsLabel: "Market Needs",
+        needs: [
+          "단순 AI 활용 교육을 넘어선 Agent 제작 교육 수요 증가",
+          "바이브코딩·자동화툴·노코드툴 등 새로운 트렌드에 대한 실무 교육 필요",
+          "비개발자도 직접 업무용 도구를 만들 수 있는 실습 중심 커리큘럼 요청"
+        ],
+        solution: [
+          { title: "트렌드 리서치 및 서비스 선정",
+            items: ["AI 트렌드 팔로우업 및 무료 활용 가능한 생성형 AI 서비스 위주 리서치",
+                    "서비스별 결과물 기획 및 업무 적용 가능성 검토",
+                    "비개발자 접근 가능한 생성형 AI 서비스 선별 및 난이도 조율"] },
+          { title: "커리큘럼 설계",
+            items: ["5개 파트 (6시간) 구성",
+                    "실무 사례 중심의 업무 적용형 과제 설계",
+                    "AI 사용 → AI 제작 전환을 위한 단계적 학습 경로 구성"] },
+          { title: "교안 및 실습 구성",
+            items: ["각 파트별 교안 제작",
+                    "자동화 도구 · 바이브 코딩을 활용한 실습 파일 구성",
+                    "비개발자 눈높이 맞춤 설명 체계 수립"] }
+        ],
+        outcome: {
+          role: ["AI 트렌드 리서치 및 생성형 AI 서비스 선정",
+                 "커리큘럼 설계 및 학습 과제 기획",
+                 "교안 제작 및 실습 파일 구성"],
+          images: [
+            { src: "프로젝트 이미지/project 02/1.png", alt: "Agent 제작 커리큘럼 결과 1" },
+            { src: "프로젝트 이미지/project 02/2.png", alt: "Agent 제작 커리큘럼 결과 2" },
+            { src: "프로젝트 이미지/project 02/3.png", alt: "Agent 제작 커리큘럼 결과 3" },
+            { src: "프로젝트 이미지/project 02/4.png", alt: "Agent 제작 커리큘럼 결과 4" }
+          ],
+          imagesCaption: "*Agent 제작 커리큘럼 결과물",
+          tools: ["Gemini", "Claude", "V0", "Stitch", "Google AI Studio", "Opal"],
+          notes: [
+            "Agent 교육 론칭 직후 고객사 교육 의뢰 발생",
+            "한국건설기술연구원 · 한국안전보건공단 납품 및 교육 진행",
+            "교육 직후 타 부서 추가 교육 문의 발생"
+          ]
+        }
+      }
+    } },
+  { label: "PROJECT 03", year: "2025", role: "Prompt Engineer",
+    title: "수출용 무역 비즈니스 프롬프트 제작",
+    desc: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작.",
+    stack: ["프롬프트 설계", "무역 도메인 리서치", "활용 가이드라인"], accent: 7, icon: "globe",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "중소기업 수출 무역 담당자를 위한 비즈니스 프롬프트 템플릿 및 활용 가이드라인 단독 제작",
+          image: { src: "프로젝트 이미지/project 03/1.png",
+                   alt: "수출용 무역 비즈니스 프롬프트 메인 이미지",
+                   caption: "*(예시) 프롬프트 입력 화면 및 송장 문서",
+                   ratio: "16 / 9" }
+        },
+        needs: [
+          "수출 무역 과정에서 발생하는 외국어 비즈니스 문서 작성의 어려움",
+          "담당자 교체 시에도 일관된 품질의 문서 생산 필요",
+          "중소기업 무역 담당자·수출 바이어 응대 직원의 업무 효율화 요구"
+        ],
+        solution: [
+          { title: "프롬프트 설계",
+            items: ["다양한 비즈니스 이메일 · 송장 · Price List 등 무역 문서 유형별 프롬프트 제작",
+                    "담당자 무관 일관된 품질 유지를 위한 표준화 설계",
+                    "다국적 언어 렌더링 가능한 출력 구조 구성"] },
+          { title: "활용 가이드라인 제작",
+            items: ["프롬프트 작성 목적 · 활용 상황 · 활용 방법 수록",
+                    "유의사항 · 제작 예시 포함",
+                    "비전문가도 즉시 활용 가능한 설명 체계 수립"] }
+        ],
+        outcome: {
+          role: ["무역 도메인 및 비즈니스 문서 리서치",
+                 "무역 문서 유형별 프롬프트 설계 및 품질 고도화",
+                 "활용 가이드라인 제작"],
+          images: [
+            { src: "프로젝트 이미지/project 03/2.png", alt: "수출용 무역 비즈니스 프롬프트 결과 1" },
+            { src: "프로젝트 이미지/project 03/3.png", alt: "수출용 무역 비즈니스 프롬프트 결과 2" }
+          ],
+          imagesCaption: "*수출용 무역 비즈니스 프롬프트 결과물",
+          notes: [
+            "고객사 피드백 3회 반영 및 품질 고도화 완료",
+            "프롬프트 파일 · 활용 가이드라인 파일 납품",
+            "고객사 납품 품질 만족 및 추가 계약 체결"
+          ]
+        }
+      }
+    } },
+  { label: "PROJECT 04", year: "2025", role: "AI Education & Consulting",
+    title: "2025 산업맞춤형 혁신바우처",
+    desc: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 — 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행.",
+    stack: ["전사 AI 교육", "핵심 인재 양성", "AI Agent 기획"], accent: 4, icon: "spark",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "정보통신산업진흥원 주관 산업맞춤형 혁신바우처 사업 참여. 울산 소재 중소기업 대상 생성형 AI 교육·컨설팅 및 업무용 AI Agent 기획 수행 (2025.05 ~ 2025.12)",
+          image: { src: "프로젝트 이미지/projects 04/강의 1.jpg",
+                   alt: "산업맞춤형 혁신바우처 교육 현장",
+                   caption: "*산업맞춤형 혁신바우처 교육 현장",
+                   ratio: "16 / 9" }
+        },
+        needs: [
+          "전사 차원의 생성형 AI 도입 필요",
+          "전사 AI 기초 역량 확보 및 부서별 생성형 AI 활용 핵심 인재 양성",
+          "업무 프로세스에 최적화된 AI Agent 도입 필요"
+        ],
+        solution: [
+          { title: "전사 교육",
+            items: ["전 직원 대상 생성형 AI 기초 교육 진행",
+                    "업무 활용 중심 커리큘럼 · 교안 제작"] },
+          { title: "핵심 인재 양성",
+            items: ["부서별 인원 선발 후 심화 과정 진행",
+                    "부서별 특화 생성형 AI 서비스 선정 및 업무 상황별 활용 심화 교육",
+                    "부서별 업무 프로세스 인터뷰 기반 맞춤 교육 설계"] },
+          { title: "AI 컨설팅",
+            items: ["부서별 업무 프로세스 분석 및 AI 활용 지점 도출",
+                    "업무 특화 AI Agent 기획",
+                    "AI Agent 활용 가이드북 제작"] }
+        ],
+        outcome: {
+          roleStyle: "bullets",
+          role: ["교육 커리큘럼 · 교안 제작",
+                 "울산 지역 교육 및 컨설팅 담당",
+                 "전사 교육 및 핵심 인재 심화 교육 진행",
+                 "AI Agent 기획 및 활용 가이드북 제작",
+                 "사업 완료 후 발주처 제출용 보고서 작성 보조"],
+          images: [
+            { src: "프로젝트 이미지/projects 04/Agent 메인 화면 가린 거.png", alt: "업무용 AI Agent 메인 화면 1" },
+            { src: "프로젝트 이미지/projects 04/Agent 메인 화면 2 가린 거.png", alt: "업무용 AI Agent 메인 화면 2" }
+          ],
+          imagesCaption: "*업무용 AI Agent 메인 화면",
+          metrics: [
+            { label: "생성형 AI 도입 컨설팅", value: "12명 · 3개 부서" },
+            { label: "전사 교육",                  value: "2회 진행" },
+            { label: "핵심 인재 심화 교육",        value: "12회 진행" },
+            { label: "업무용 AI Agent 제공",       value: "5가지" },
+            { label: "고객사 만족도",               value: "4.75 / 5.0" }
+          ]
+        }
+      }
+    } },
+  { label: "PROJECT 05", year: "2023–2025", role: "Lecturer",
+    title: "공공기관·기업 대상 생성형 AI 출강",
+    desc: "공공기관·기업 대상 생성형 AI 강의 출강. 직종·직급별 맞춤 난이도 조정 및 실습 중심 강의 운영.",
+    stack: ["메인 강사 출강", "직무별 맞춤 강의", "현장 운영"], accent: 5, icon: "mic",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "공공기관·기업 대상 생성형 AI 강의 출강",
+          image: { src: "프로젝트 이미지/Project 05/프로젝트 디테일.png",
+                   alt: "생성형 AI 출강 프로젝트 디테일 이미지",
+                   caption: "*2025 KGSF 해외마케팅 특별세미나",
+                   ratio: "16 / 9" }
+        },
+        needs: [
+          "직종·직급별 생성형 AI 활용 역량 강화 필요",
+          "이론 축소·실습 중심의 강의 구성 요청",
+          "생성형 AI 및 프롬프트 활용 실전 노하우 및 팁 전달 요청"
+        ],
+        solution: [
+          { title: "수행 개요",
+            items: ["산업군: 제조·공공·금융·유통 등",
+                    "주요 고객사: 한국전자기술연구원 · 한국무역협회 · 에이치아이티모티브 · 국립종자원 · 그래핀스퀘어 · 미래아이앤씨 등",
+                    "수강 대상: 신입사원 · 실무자 · 마케터 · 임원진 · 박사급 연구원 등"] },
+          { title: "강의 주제",
+            items: ["생성형 AI 활용법 (ChatGPT · Gemini · Claude · Genspark 등)",
+                    "프롬프트 엔지니어링",
+                    "Agent · GPTs · Gems 등 챗봇 제작",
+                    "대시보드 제작 · 데이터 시각화 · 이미지 제작",
+                    "엑셀 VBA 자동화"] },
+          { title: "강의 운영",
+            items: ["직종·직급·연령별 맞춤 난이도 조정 및 톤앤매너 조율",
+                    "현장 돌발 상황 대응 (빔프로젝터 장애 · 온오프라인 병행 환경 화면 전환 · 세팅 변경 등)",
+                    "Why 중심 설명으로 비전문가 대상 기술 개념 전달"] }
+        ],
+        outcome: {
+          role: ["메인 강사 출강 및 세미나 연사 · 경진대회 심사위원 참여"],
+          skills: ["현장 대응력", "Why & How 중심 설명", "온·오프라인 강의 경험", "현장 환경 세팅", "시연 및 실습 운영"],
+          images: [
+            { src: "프로젝트 이미지/Project 05/강의 2.jpg", alt: "강의 출강 현장 1" },
+            { src: "프로젝트 이미지/Project 05/강의1.jpg", alt: "강의 출강 현장 2" },
+            { src: "프로젝트 이미지/Project 05/강의 3.jpg", alt: "강의 출강 현장 3" },
+            { src: "프로젝트 이미지/Project 05/강의 4.jpg?v=2", alt: "강의 출강 현장 4" }
+          ],
+          imagesCaption: "*강의 출강 현장 이미지",
+          metrics: [
+            { label: "누적 메인 강사 출강", value: "30회+" },
+            { label: "누적 수강 인원",     value: "약 600명+" },
+            { label: "회당 강의 시간",     value: "2~6시간" }
+          ]
+        }
+      }
+    } },
+  { label: "PROJECT 06", year: "2025", role: "Internal Tool Builder",
+    title: "생성형 AI 활용 업무 자동화 도구 제작",
+    desc: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작.",
+    stack: ["Claude Code", "Supabase", "VBA 자동화"], accent: 6, icon: "code",
+    detail: {
+      layout: "scroll",
+      sections: {
+        detail: {
+          summary: "사내 업무 효율화를 위한 생성형 AI 기반 업무 자동화 도구 자체 기획·제작",
+          image: { src: "",
+                   alt: "업무 자동화 도구 메인 이미지",
+                   caption: "*업무 자동화 도구 결과물",
+                   ratio: "16 / 9" }
+        },
+        needsLabel: "조직 내 Pain Point",
+        needs: [
+          "커리큘럼 수가 많아져 원하는 항목을 빠르게 찾기 어려운 문제",
+          "광고 로우데이터를 매번 수동으로 정제·가공하는 반복 업무 부담",
+          "영수증·지출증빙 서류를 일일이 확인하고 수기 입력하는 비효율",
+          "여러 일정을 한곳에서 조회·메모·관리할 수 없는 불편함",
+          "고객사 안내 메일 발송 시 매번 수동 작성·발송하는 반복 업무 부담"
+        ],
+        solution: [
+          { title: "커리큘럼 장바구니",
+            items: ["카테고리별 커리큘럼 목록 한눈에 조회",
+                    "커리큘럼 수정·보완·추가 기능",
+                    "커리큘럼 엑셀 파일 형태로 다운로드 지원",
+                    "Supabase 연동으로 내부 데이터 실시간 관리"] },
+          { title: "일일·주간 광고리포트 자동화",
+            items: ["구글 GA · 네이버 검색광고 등 엑셀 로우데이터 입력만으로 보고서 자동 생성",
+                    "데이터 정제 · 함수 계산 자동화",
+                    "자사 기존 엑셀 보고서 형식 그대로 출력"] },
+          { title: "지출증빙용 영수증 OCR Agent",
+            items: ["영수증 이미지 업로드 시 원하는 항목 자동 파싱",
+                    "결과물 표 형태 즉시 확인 및 엑셀 다운로드 지원"] },
+          { title: "업무 일정 관리 도구",
+            items: ["일정 목록별 조회 및 메모 기록 기능",
+                    "구글 캘린더 · 스프레드시트 API 연동으로 실시간 업데이트 및 기록"] },
+          { title: "엑셀 VBA 활용 이메일 자동화",
+            items: ["HTML 템플릿 기반 서식 적용으로 일관된 메일 품질 유지",
+                    "고객사명·담당자명 자동 치환",
+                    "버튼 한 번으로 Outlook 발송 자동화"] }
+        ],
+        outcome: {
+          roleStyle: "bullets",
+          role: ["반복·비효율 업무를 스스로 식별하여 문제 정의",
+                 "도구 기획부터 제작·실 사용까지 전 과정 주도"],
+          skills: ["문제 해결 지향", "자기주도적 실행력", "바이브 코딩", "업무 자동화 설계"],
+          techStack: ["Claude Code", "Codex", "Antigravity", "Vercel", "Google Calendar · Sheets API", "Supabase"],
+          metrics: [
+            { label: "광고리포트 보고 시간 단축", value: "20분 → 5분" }
+          ],
+          notes: [
+            "업무 프로세스 간소화로 인한 생산성 향상 기여",
+            "업무 데이터 접근·관리 흐름 단순화"
+          ]
+        }
+      }
+    } },
+  ];
+
+
+  const ProjIcon = ({ kind }) => {
+    const c = { width: 28, height: 28, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" };
+    if (kind === "mail") return <svg {...c}><rect x="2.5" y="5" width="19" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>;
+    if (kind === "spark") return <svg {...c}><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8" /></svg>;
+    if (kind === "compass") return <svg {...c}><circle cx="12" cy="12" r="9" /><path d="M15.5 8.5L13 13l-4.5 2.5L11 11z" /></svg>;
+    if (kind === "moon") return <svg {...c}><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" /></svg>;
+    if (kind === "code") return <svg {...c}><polyline points="8 8 4 12 8 16" /><polyline points="16 8 20 12 16 16" /><line x1="14" y1="6" x2="10" y2="18" /></svg>;
+    if (kind === "layers") return <svg {...c}><path d="M12 3l9 5-9 5-9-5 9-5z" /><path d="M3 13l9 5 9-5" /></svg>;
+    if (kind === "bolt") return <svg {...c} strokeWidth="1.4"><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" /></svg>;
+    if (kind === "globe") return <svg {...c}><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" /></svg>;
+    if (kind === "mic") return <svg {...c}><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5 11a7 7 0 0 0 14 0" /><line x1="12" y1="18" x2="12" y2="22" /><line x1="9" y1="22" x2="15" y2="22" /></svg>;
+    return null;
+  };
+
+  const SLIDE_COUNT = 5;
+
+  function ProjectModal({ project, onClose, closeBtnRef }) {
+    const [slideIndex, setSlideIndex] = useState(0);
+    const trackRef = React.useRef(null);
+    const viewportRef = React.useRef(null);
+    const dragRef = React.useRef({ active: false, startX: 0, startY: 0, startT: 0, dx: 0, locked: false, axis: null });
+
+    React.useEffect(() => { setSlideIndex(0); }, [project]);
+
+    const goTo = React.useCallback((i) => {
+      setSlideIndex((prev) => {
+        const next = Math.max(0, Math.min(SLIDE_COUNT - 1, i));
+        return next === prev ? prev : next;
+      });
+    }, []);
+    const goPrev = React.useCallback(() => goTo(slideIndex - 1), [goTo, slideIndex]);
+    const goNext = React.useCallback(() => goTo(slideIndex + 1), [goTo, slideIndex]);
+
+    React.useEffect(() => {
+      if (!project) return;
+      const onArrow = (e) => {
+        if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+        const t = e.target;
+        const tag = t && t.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || (t && t.isContentEditable)) return;
+        if (e.key === "ArrowLeft") { e.preventDefault(); setSlideIndex((i) => Math.max(0, i - 1)); }
+        else { e.preventDefault(); setSlideIndex((i) => Math.min(SLIDE_COUNT - 1, i + 1)); }
+      };
+      document.addEventListener("keydown", onArrow);
+      return () => document.removeEventListener("keydown", onArrow);
+    }, [project]);
+
+    if (!project) return null;
+    const d = project.detail;
+    if (!d) return null;
+
+    const onBackdrop = (e) => {
+      if (e.target === e.currentTarget) onClose();
+    };
+
+    const reduceMotion = typeof window !== "undefined" &&
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const onTouchStart = (e) => {
+      if (e.touches.length !== 1) return;
+      const tch = e.touches[0];
+      dragRef.current = {
+        active: true, startX: tch.clientX, startY: tch.clientY,
+        startT: performance.now(), dx: 0, locked: false, axis: null
+      };
+      if (trackRef.current) trackRef.current.classList.add("is-dragging");
+    };
+    const onTouchMove = (e) => {
+      const st = dragRef.current;
+      if (!st.active) return;
+      const tch = e.touches[0];
+      const dx = tch.clientX - st.startX;
+      const dy = tch.clientY - st.startY;
+      if (!st.locked) {
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+          st.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+          st.locked = true;
+        }
+      }
+      if (st.axis !== "x") return;
+      st.dx = dx;
+      let resist = dx;
+      if ((slideIndex === 0 && dx > 0) || (slideIndex === SLIDE_COUNT - 1 && dx < 0)) {
+        resist = dx * 0.3;
+      }
+      if (!reduceMotion && trackRef.current) {
+        trackRef.current.style.transform = `translateX(calc(${-slideIndex * 100}% + ${resist}px))`;
+      }
+    };
+    const onTouchEnd = () => {
+      const st = dragRef.current;
+      if (!st.active) return;
+      const dt = performance.now() - st.startT;
+      const dx = st.dx;
+      const velocity = dt > 0 ? Math.abs(dx) / dt : 0;
+      const passed = Math.abs(dx) > 60 || velocity > 0.4;
+      if (trackRef.current) {
+        trackRef.current.classList.remove("is-dragging");
+        trackRef.current.style.transform = "";
+      }
+      if (st.axis === "x" && passed) {
+        if (dx < 0) setSlideIndex((i) => Math.min(SLIDE_COUNT - 1, i + 1));
+        else setSlideIndex((i) => Math.max(0, i - 1));
+      }
+      dragRef.current = { active: false, startX: 0, startY: 0, startT: 0, dx: 0, locked: false, axis: null };
+    };
+
+    const counterText = `${String(slideIndex + 1).padStart(2, "0")} / ${String(SLIDE_COUNT).padStart(2, "0")}`;
+    const trackStyle = { transform: `translateX(-${slideIndex * 100}%)` };
+    const slideAttrs = (i, label) => {
+      const isActive = i === slideIndex;
+      const base = {
+        role: "group",
+        "aria-roledescription": "slide",
+        "aria-label": label,
+        "aria-hidden": isActive ? "false" : "true"
+      };
+      if (!isActive) base.inert = "";
+      return base;
+    };
+
+    return (
+      <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label={project.title} onClick={onBackdrop}>
+        <div className="modal-shell">
+          <div className="modal-topbar">
+            <div className="modal-topbar-left">
+              <span className="modal-eyebrow">{project.label}</span>
+              {d.layout !== "scroll" && (
+                <span className="modal-counter" aria-live="polite" aria-atomic="true">{counterText}</span>
+              )}
+            </div>
+            <button ref={closeBtnRef} className="modal-close" type="button" aria-label="닫기" onClick={onClose}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+            </button>
+          </div>
+
+          {d.layout === "scroll" ? (
+            <div className="modal-viewport modal-viewport-scroll">
+              <div className="ms-scroll">
+                {(() => {
+                  const sx = d.sections;
+                  return (<>
+                    <header className="ms-scroll-head">
+                      <h2 className="ms-scroll-title">{project.title}</h2>
+                    </header>
+
+                    <section className="ms-sec">
+                      <div className="ms-sec-head">
+                        <span className="ms-sec-num">01</span>
+                        <h3 className="ms-sec-label">Project Detail</h3>
+                      </div>
+                      <p className="ms-sec-lead">{sx.detail.summary}</p>
+                      {sx.detail.image && (
+                        <figure className="ms-sec-image">
+                          <div className="ms-sec-image-frame" style={{ aspectRatio: sx.detail.image.ratio || "4 / 3" }}>
+                            {sx.detail.image.src
+                              ? <img src={sx.detail.image.src} alt={sx.detail.image.alt} />
+                              : <div className="ms-image-ph" aria-label={sx.detail.image.alt}>
+                                  <span className="ms-image-ph-tag">IMAGE</span>
+                                  <span className="ms-image-ph-text">{sx.detail.image.caption || "이미지 자리"}</span>
+                                </div>}
+                          </div>
+                          {sx.detail.image.caption && sx.detail.image.src && (
+                            <figcaption className="ms-sec-image-cap">{sx.detail.image.caption}</figcaption>
+                          )}
+                        </figure>
+                      )}
+                      {sx.detail.clients && (
+                        <div className="ms-clientblock">
+                          <div className="ms-clientblock-label">KEY CLIENTS</div>
+                          <div className="ms-clientblock-list">
+                            {sx.detail.clients.map((g) => (
+                              <div key={g.group} className="ms-clientgroup">
+                                <div className="ms-clientgroup-label">{g.group}</div>
+                                <div className="ms-client-grid">
+                                  {g.items.map((it) => (
+                                    <div key={it.name} className="ms-client-item">
+                                      <div className="ms-client-cell" title={it.name}>
+                                        {it.logo
+                                          ? <img src={it.logo} alt={it.name} loading="lazy"
+                                                 style={it.scale ? { transform: `scale(${it.scale})` } : undefined} />
+                                          : <span className="ms-client-cell-fallback">{it.name}</span>}
+                                      </div>
+                                      <div className="ms-client-name">{it.name}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </section>
+
+                    <section className="ms-sec">
+                      <div className="ms-sec-head">
+                        <span className="ms-sec-num">02</span>
+                        <h3 className="ms-sec-label">{sx.needsLabel || "Client Needs"}</h3>
+                      </div>
+                      <ul className="ms-needlist">
+                        {sx.needs.map((n) => <li key={n}>{n}</li>)}
+                      </ul>
+                    </section>
+
+                    <section className="ms-sec">
+                      <div className="ms-sec-head">
+                        <span className="ms-sec-num">03</span>
+                        <h3 className="ms-sec-label">Solution</h3>
+                      </div>
+                      <div className="ms-sollist">
+                        {sx.solution.map((s, i) => (
+                          <div key={s.title} className="ms-sol">
+                            <div className="ms-sol-head">
+                              <span className="ms-sol-step" aria-hidden="true">STEP {String(i + 1).padStart(2, "0")}</span>
+                              <h4 className="ms-sol-title">{s.title}</h4>
+                            </div>
+                            <ul className="ms-sol-items">
+                              {s.items.map((it) => <li key={it}>{it}</li>)}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </section>
+
+                    <section className="ms-sec">
+                      <div className="ms-sec-head">
+                        <span className="ms-sec-num">04</span>
+                        <h3 className="ms-sec-label">Role &amp; Outcome</h3>
+                      </div>
+                      <div className="ms-out-block">
+                        <div className="ms-out-key">Role</div>
+                        {sx.outcome.roleStyle === "bullets" ? (
+                          <ul className="ms-needlist">
+                            {sx.outcome.role.map((r) => <li key={r}>{r}</li>)}
+                          </ul>
+                        ) : (
+                          <div className="ms-out-roleline">
+                            {sx.outcome.role.map((r, i) => (
+                              <React.Fragment key={r}>
+                                <span className="ms-out-rolestep">{r}</span>
+                                {i < sx.outcome.role.length - 1 && <span className="ms-out-rolesep" aria-hidden="true">→</span>}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="ms-out-block">
+                        <div className="ms-out-key">Outcome</div>
+                        {sx.outcome.images && (
+                          <figure className="ms-out-images">
+                            <div className="ms-out-images-grid">
+                              {sx.outcome.images.map((im, i) => (
+                                <div key={i} className="ms-out-images-cell">
+                                  {im.src
+                                    ? <img src={im.src} alt={im.alt} loading="lazy" />
+                                    : <div className="ms-image-ph" aria-label={im.alt}>
+                                        <span className="ms-image-ph-tag">IMAGE</span>
+                                      </div>}
+                                </div>
+                              ))}
+                            </div>
+                            {sx.outcome.imagesCaption && (
+                              <figcaption className="ms-sec-image-cap">{sx.outcome.imagesCaption}</figcaption>
+                            )}
+                          </figure>
+                        )}
+                        {sx.outcome.tools && (
+                          <div className="ms-tools">
+                            <div className="ms-tools-label">활용 툴</div>
+                            <div className="ms-tools-list">
+                              {sx.outcome.tools.map((t) => (
+                                <span key={t} className="ms-tool-chip">{t}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {sx.outcome.skills && (
+                          <div className="ms-tools">
+                            <div className="ms-tools-label">Skills</div>
+                            <div className="ms-tools-list">
+                              {sx.outcome.skills.map((s) => (
+                                <span key={s} className="ms-tool-chip">{s}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {sx.outcome.techStack && (
+                          <div className="ms-tools">
+                            <div className="ms-tools-label">Tech Stack</div>
+                            <div className="ms-tools-list">
+                              {sx.outcome.techStack.map((t) => (
+                                <span key={t} className="ms-tool-chip">{t}</span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        {sx.outcome.metrics && (
+                          <table className="ms-out-table">
+                            <thead>
+                              <tr>
+                                <th scope="col">성과지표</th>
+                                <th scope="col">수치</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {sx.outcome.metrics.map((m) => (
+                                <tr key={m.label}>
+                                  <td>{m.label}</td>
+                                  <td className="ms-out-table-num">{m.value}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
+                        {sx.outcome.notes && (
+                          <ul className="ms-out-notes">
+                            {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                          </ul>
+                        )}
+                      </div>
+                    </section>
+                  </>);
+                })()}
+              </div>
+            </div>
+          ) : (
+          <div className="modal-viewport" ref={viewportRef}
+            onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd} onTouchCancel={onTouchEnd}>
+            <div className="modal-track" ref={trackRef} style={trackStyle}>
+              <section className="modal-section ms-hero" {...slideAttrs(0, "01. Project Detail")}>
+                <div className="ms-eyebrow">01 / OVERVIEW</div>
+                <h2 className="ms-hero-title">{project.title}</h2>
+                <p className="ms-hero-tagline">{d.hero.tagline}</p>
+                <div className="ms-hero-meta">
+                  <span><span className="ms-meta-k">Role</span><span className="ms-meta-v">{project.role}</span></span>
+                  <span><span className="ms-meta-k">Duration</span><span className="ms-meta-v">{d.hero.duration}</span></span>
+                  <span><span className="ms-meta-k">Team</span><span className="ms-meta-v">{d.hero.team}</span></span>
+                  <span><span className="ms-meta-k">Year</span><span className="ms-meta-v">{project.year}</span></span>
+                </div>
+                {(d.hero.image || d.hero.clients) && (
+                  <div className="ms-hero-compact">
+                    {d.hero.image && (
+                      <figure className="ms-hero-image" style={{ aspectRatio: d.hero.image.ratio || "4 / 3" }}>
+                        {d.hero.image.src
+                          ? <img src={d.hero.image.src} alt={d.hero.image.alt} />
+                          : <div className="ms-image-ph" aria-label={d.hero.image.alt}>
+                              <span className="ms-image-ph-tag">IMAGE</span>
+                              <span className="ms-image-ph-text">{d.hero.image.caption || "이미지 자리"}</span>
+                            </div>}
+                      </figure>
+                    )}
+                    {d.hero.clients && (
+                      <div className="ms-clients">
+                        <div className="ms-clients-label">Selected Clients</div>
+                        <div className="ms-clients-groups">
+                          {d.hero.clients.map((g) => (
+                            <div key={g.group} className="ms-clients-group">
+                              <div className="ms-clients-group-name">{g.group}</div>
+                              <div className="ms-clients-chips">
+                                {g.items.map((it) => <span key={it} className="ms-client-chip">{it}</span>)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </section>
+
+              <section className="modal-section ms-needs" {...slideAttrs(1, "02. Client Needs")}>
+                <div>
+                  <div className="ms-eyebrow">02 / CLIENT NEEDS</div>
+                  <h3 className="ms-headline">{d.needs.headline}</h3>
+                </div>
+                <div className="ms-needs-body">
+                  <p>{d.needs.body}</p>
+                  <ul className="ms-bullets">
+                    {d.needs.bullets.map((b) => <li key={b}>{b}</li>)}
+                  </ul>
+                </div>
+              </section>
+
+              <section className="modal-section ms-solution" {...slideAttrs(2, "03. Solution")}>
+                <div className="ms-eyebrow ms-eyebrow-main">03 / SOLUTION — MAIN</div>
+                <h3 className="ms-headline ms-headline-lg">{d.solution.headline}</h3>
+                <div className={`ms-phase-grid ${d.solution.phases.some(p => p.bullets) ? "ms-phase-grid-flow" : ""}`}>
+                  {d.solution.phases.map((ph, i) => (
+                    <React.Fragment key={ph.title}>
+                      <div className="ms-phase">
+                        <div className="ms-phase-num">{String(i + 1).padStart(2, "0")}</div>
+                        <div className="ms-phase-title">{ph.title}</div>
+                        <p className="ms-phase-body">{ph.body}</p>
+                        {ph.bullets && (
+                          <ul className="ms-phase-bullets">
+                            {ph.bullets.map((b) => <li key={b}>{b}</li>)}
+                          </ul>
+                        )}
+                        <div className="ms-phase-artifact">{ph.artifact}</div>
+                      </div>
+                      {i < d.solution.phases.length - 1 && d.solution.phases.some(p => p.bullets) && (
+                        <div className="ms-phase-arrow" aria-hidden="true">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                               strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M13 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+                {d.solution.deliverables && (
+                  <div className="ms-deliverables">
+                    <div className="ms-deliv-label">Deliverables</div>
+                    <div className="ms-deliv-chips">
+                      {d.solution.deliverables.map((dv) => <span key={dv} className="ms-chip">{dv}</span>)}
+                    </div>
+                  </div>
+                )}
+              </section>
+
+              <section className="modal-section ms-outcome" {...slideAttrs(3, "04. Outcome")}>
+                <div className="ms-eyebrow">04 / OUTCOME</div>
+                <h3 className="ms-headline">
+                  {project.label === "PROJECT 01"
+                    ? "재의뢰로 검증된 누적 결과를 만들었습니다"
+                    : "결과는 시간과 답장 속도로 돌아왔습니다"}
+                </h3>
+                {d.outcome.roleFlow && (
+                  <div className="ms-roleflow">
+                    <div className="ms-roleflow-label">Role</div>
+                    <ol className="ms-roleflow-steps">
+                      {d.outcome.roleFlow.map((step, i) => (
+                        <li key={step} className="ms-roleflow-step">
+                          <span className="ms-roleflow-step-num">{String(i + 1).padStart(2, "0")}</span>
+                          <span className="ms-roleflow-step-text">{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+                <div className="ms-outcome-metrics">
+                  {d.outcome.metrics.map((m) => (
+                    <div key={m.label} className="ms-metric">
+                      <div className="ms-metric-value">{m.value}</div>
+                      <div className="ms-metric-label">{m.label}</div>
+                    </div>
+                  ))}
+                </div>
+                {d.outcome.quote && (
+                  <blockquote className="ms-quote">
+                    <p>"{d.outcome.quote.body}"</p>
+                    <cite>— {d.outcome.quote.author}</cite>
+                  </blockquote>
+                )}
+              </section>
+
+              <section className={`modal-section ms-reflection ${d.reflection.feedbackCards ? "has-feedback" : ""}`} {...slideAttrs(4, "05. Reflection")}>
+                <div className="ms-eyebrow">05 / REFLECTION</div>
+                <h3 className="ms-headline ms-headline-serif">{d.reflection.headline}</h3>
+                <p className="ms-reflection-body">{d.reflection.body}</p>
+                {d.reflection.feedbackCards && (
+                  <div className="ms-feedback-grid">
+                    {d.reflection.feedbackCards.map((c) => (
+                      <figure key={c.quote} className="ms-feedback-card">
+                        <div className="ms-feedback-tag">{c.tag}</div>
+                        <blockquote className="ms-feedback-quote">"{c.quote}"</blockquote>
+                      </figure>
+                    ))}
+                  </div>
+                )}
+                {d.reflection.takeaways && (
+                  <ul className="ms-takeaways">
+                    {d.reflection.takeaways.map((tk) => <li key={tk}>{tk}</li>)}
+                  </ul>
+                )}
+              </section>
+            </div>
+
+            <button type="button" className="modal-nav modal-nav-prev"
+              aria-label="이전 슬라이드" onClick={goPrev} disabled={slideIndex === 0}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+            </button>
+            <button type="button" className="modal-nav modal-nav-next"
+              aria-label="다음 슬라이드" onClick={goNext} disabled={slideIndex === SLIDE_COUNT - 1}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
+
+            <div className="modal-dots" role="tablist" aria-label="슬라이드 선택">
+              {Array.from({ length: SLIDE_COUNT }).map((_, i) => (
+                <button key={i} type="button" className="modal-dot"
+                  aria-label={`슬라이드 ${i + 1}`}
+                  aria-current={i === slideIndex ? "true" : undefined}
+                  onClick={() => goTo(i)} />
+              ))}
+            </div>
+          </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  function Header({ active, name }) {
+    const items = [{ id: "about", label: "About" }, { id: "projects", label: "Projects" }, { id: "experience", label: "Experience" }];
+    return (
+      <header className="hdr">
+      <div className="hdr-inner">
+        <a href="#top" className="brand">
+          <div className="brand-mark">K</div>
+          <span>{name.replace(/\s/g, "")} <span style={{ color: "var(--fg-3)", fontWeight: 400 }}>/ Portfolio</span></span>
+        </a>
+        <nav className="nav">
+          {items.map((i) => <a key={i.id} href={`#${i.id}`} className={active === i.id ? "active" : ""}>{i.label}</a>)}
+        </nav>
+        <div className="hdr-right">
+          <div className="hdr-meta"><span className="hdr-dot" /><span>Open to work</span></div>
+          <a className="resume-btn" href="#contact">Résumé
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+          </a>
+        </div>
+      </div>
+    </header>);
+
+  }
+
+  function Hero({ tagline, subline, name }) {
+    return (
+      <section id="about" className="hero">
+      <div className="container">
+        <div className="hero-section-label">TEACHING & INSTRUCTIONAL EXPERIENCE</div>
+        <div className="hero-grid">
+          <div className="hero-left">
+            <div className="hero-eyebrow">PROFILE</div>
+            <h1>
+              <span className="ln" style={{ fontSize: "90px" }}>KIM</span>
+              <span className="ln" style={{ width: "470px", fontSize: "90px" }}>HAK JONG</span>
+            </h1>
+            <p className="hero-role">{CONTACT.role}</p>
+            <div className="hero-quotes">
+              {CONTACT.quotes.map((q, i) =>
+                <p key={i}>
+                  {q.strong &&
+                  <b style={{ fontSize: "22px", lineHeight: 1.35, color: "var(--fg)", fontWeight: 700, fontStyle: "normal", display: "block" }}>
+                      {q.strong}
+                    </b>
+                  }
+                  {q.caption && <span style={{ fontSize: "12px", color: "var(--fg-3)", fontStyle: "normal" }}>{q.caption}</span>}
+                </p>
+                )}
+            </div>
+            <div className="hero-expertise">
+              <div className="hero-section-mini">EXPERTISE</div>
+              <div className="hero-tags-grid">
+                {CONTACT.expertise.map((e, i) => <span key={i} className="hero-tag">#{e}</span>)}
+              </div>
+            </div>
+            <div className="hero-contact">
+              <div className="hero-section-mini">CONTACT</div>
+              <div className="hero-contact-row">
+                <span className="ic">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l9 6 9-6" /><rect x="3" y="5" width="18" height="14" rx="2" /></svg>
+                </span>
+                <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+              </div>
+              <div className="hero-contact-row">
+                <span className="ic">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.37 1.9.72 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0122 16.92z" /></svg>
+                </span>
+                <span>{CONTACT.phone}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="hero-right">
+            <div className="hero-photo">
+              <img src="assets/about-photo.png" alt={CONTACT.name} />
+            </div>
+            <div className="hero-stats">
+              {CONTACT.stats.map((s, i) =>
+                <div key={i} className="hero-stat">
+                  <div className="hero-stat-num">
+                    {s.num}<span className="unit">{s.unit}</span>
+                    {s.arrow && <span className="arr">↑</span>}
+                  </div>
+                  <div className="hero-stat-label">{s.label}</div>
+                  <div className="hero-stat-desc">{s.desc}</div>
+                </div>
+                )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+  }
+
+  function ContactFab() {
+    const [open, setOpen] = useState(false);
+    const wrapRef = React.useRef(null);
+    useEffect(() => {
+      if (!open) return;
+      const onDoc = (e) => {if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);};
+      const onKey = (e) => {if (e.key === "Escape") setOpen(false);};
+      document.addEventListener("mousedown", onDoc);
+      document.addEventListener("keydown", onKey);
+      return () => {document.removeEventListener("mousedown", onDoc);document.removeEventListener("keydown", onKey);};
+    }, [open]);
+    return (
+      <div className="fab-wrap" ref={wrapRef}>
+      <div className="fab-card" data-open={open ? "1" : "0"} id="contact">
+        <div className="fab-card-h">
+          <span><span className="dot" />Contact</span>
+          <span>OPEN TO WORK</span>
+        </div>
+        <div className="fab-row"><span className="k">name</span><span className="v">{CONTACT.name}</span></div>
+        <div className="fab-row"><span className="k">role</span><span className="v">{CONTACT.role}</span></div>
+        <div className="fab-row"><span className="k">email</span><a className="v" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></div>
+        <div className="fab-row"><span className="k">phone</span><span className="v">{CONTACT.phone}</span></div>
+        <div className="fab-row"><span className="k">based</span><span className="v">{CONTACT.location}</span></div>
+        <div className="fab-actions">
+          <a className="fab-act primary" href={`mailto:${CONTACT.email}`}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 8l9 6 9-6" /><rect x="3" y="5" width="18" height="14" rx="2" /></svg>
+            이메일 보내기
+          </a>
+          <a className="fab-act secondary" href="#">GitHub</a>
+          <a className="fab-act secondary" href="#">LinkedIn</a>
+        </div>
+      </div>
+      <button className="fab-btn" data-open={open ? "1" : "0"} aria-label="Contact" onClick={() => setOpen((o) => !o)}>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 8l9 6 9-6" /><rect x="3" y="5" width="18" height="14" rx="2" />
+        </svg>
+      </button>
+    </div>);
+
+  }
+
+  function Experience() {
+    const [filter, setFilter] = useState("all");
+    const [openIdx, setOpenIdx] = useState(0);
+    const filtered = useMemo(() => filter === "all" ? TIMELINE : TIMELINE.filter((t) => t.cat === filter), [filter]);
+    const counts = useMemo(() => ({
+      all: TIMELINE.length,
+      experience: TIMELINE.filter((t) => t.cat === "experience").length,
+      activity: TIMELINE.filter((t) => t.cat === "activity").length,
+      education: TIMELINE.filter((t) => t.cat === "education").length
+    }), []);
+    const filters = [{ k: "all", label: "전체" }, { k: "experience", label: "Experience" }, { k: "activity", label: "Activity" }, { k: "education", label: "Education" }];
+    const catLabel = { experience: "Exp", activity: "Activity", education: "Edu" };
+    return (
+      <section id="experience" className="section">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <div className="section-num">Track Record</div>
+            <h2 className="section-title">지나온 자리, <em>쌓은 것</em></h2>
+          </div>
+          <p className="section-desc">업무 경험, 외부 활동, 학습 이력을 한 줄에 모았습니다. 클릭하면 어떤 문제를 풀었고, 어떤 도구를 썼는지 펼쳐서 볼 수 있습니다.</p>
+        </div>
+        <div className="filter-bar">
+          {filters.map((f) =>
+            <button key={f.k} className={"filter-chip " + (filter === f.k ? "on" : "")}
+            onClick={() => {setFilter(f.k);setOpenIdx(-1);}}>
+              {f.label} <span style={{ opacity: .6, marginLeft: 4 }}>{counts[f.k]}</span>
+            </button>
+            )}
+          <span className="filter-count">{filtered.length} item{filtered.length !== 1 ? "s" : ""}</span>
+        </div>
+        <div className="timeline">
+          {filtered.map((t, i) =>
+            <div key={t.title} className={"tl-item " + (openIdx === i ? "open" : "")}
+            onClick={() => setOpenIdx(openIdx === i ? -1 : i)}>
+              <div className="tl-date mono">{t.date}</div>
+              <div className="tl-body">
+                <div className="tl-title">{t.title}</div>
+                <div className="tl-org">{t.org}</div>
+                <div className="tl-expand">
+                  <p>{t.desc}</p>
+                  {t.bullets && <ul>{t.bullets.map((b) => <li key={b}>{b}</li>)}</ul>}
+                  {t.skills && <div className="tl-skills">{t.skills.map((s) => <span key={s} className="tag">{s}</span>)}</div>}
+                </div>
+              </div>
+              <div className="tl-meta">
+                <span className="tl-cat" data-cat={t.cat}>{catLabel[t.cat]}</span>
+                <svg className="tl-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14" /></svg>
+              </div>
+            </div>
+            )}
+        </div>
+      </div>
+    </section>);
+
+  }
+
+  function Projects({ onOpen }) {
+    return (
+      <section id="projects" className="section">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <div className="section-num">03 / Selected Work</div>
+            <h2 className="section-title">AI로 <em>만들어 본 것들</em></h2>
+          </div>
+          <p className="section-desc">주말마다 혹은 팀 안에서 직접 짠 결과물들입니다. 아이디어보다는 “돌아가는 것"에, 기능보다는 “살아남는 흐름"에 집중했습니다.</p>
+        </div>
+        <div className="proj-grid">
+          {PROJECTS.map((p) => (
+            <button
+              key={p.title}
+              type="button"
+              className={`proj-card is-button acc-${p.accent}`}
+              onClick={(e) => onOpen(p, e.currentTarget)}
+            >
+              <div className={`proj-thumb${p.detail?.sections?.detail?.image?.src ? " has-image" : ""}`}>
+                <div className="proj-thumb-pattern" />
+                {p.detail?.sections?.detail?.image?.src ? (
+                  <img className="proj-thumb-img" src={p.detail.sections.detail.image.src} alt={p.detail.sections.detail.image.alt || p.title} loading="lazy" />
+                ) : (
+                  <div className="proj-thumb-icon"><ProjIcon kind={p.icon} /></div>
+                )}
+                <div className="proj-thumb-label"><span>{p.label}</span><span>{p.year}</span></div>
+              </div>
+              <div className="proj-body">
+                <div className="proj-meta-row"><span>{p.role}</span><span>{p.year}</span></div>
+                <div className="proj-title">{p.title}</div>
+                <div className="proj-desc">{p.desc}</div>
+                <div className="proj-stack">{p.stack.map((s) => <span key={s} className="tag">{s}</span>)}</div>
+                <div className="proj-foot">
+                  <span>Case study →</span>
+                  <span className="proj-arrow">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                  </span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>);
+
+  }
+
+  function Footer({ name }) {
+    return (
+      <footer>
+      <div className="container">
+        <div className="foot-grid">
+          <div>
+            <div className="foot-cta">지금, <em>같이 만들 사람</em>을<br />찾고 있어요.</div>
+            <a className="resume-btn" style={{ marginTop: 24 }} href={`mailto:${CONTACT.email}`}>{CONTACT.email}
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M9 7h8v8" /></svg>
+            </a>
+          </div>
+          <div className="foot-col"><h5>Sections</h5><a href="#about">About</a><a href="#projects">Projects</a><a href="#experience">Experience</a></div>
+          <div className="foot-col"><h5>Elsewhere</h5><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Notion</a></div>
+          <div className="foot-col"><h5>Direct</h5><a href={`mailto:${CONTACT.email}`}>Email</a><a href="#">Phone</a><a href="#">Calendly</a></div>
+        </div>
+        <div className="foot-bottom"><span>© 2026 {name.replace(/\s/g, "")}. Built with care.</span><span>Updated 2026.05</span></div>
+      </div>
+    </footer>);
+
+  }
+
+  function App() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    const [active, setActive] = useState("about");
+    const [openProject, setOpenProject] = useState(null);
+    const lastFocusRef = React.useRef(null);
+    const closeBtnRef = React.useRef(null);
+
+    useEffect(() => {
+      document.body.dataset.theme = t.theme;
+      document.body.dataset.bg = t.bgTone;
+      document.body.dataset.density = t.density;
+      document.body.dataset.hero = t.heroStyle;
+      document.documentElement.style.setProperty("--pop", t.popColor);
+    }, [t]);
+
+    useEffect(() => {
+      const ids = ["about", "projects", "experience"];
+      const onScroll = () => {
+        const triggerY = 120; // header height + a bit
+        let current = ids[0];
+        for (const id of ids) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          const top = el.getBoundingClientRect().top;
+          if (top - triggerY <= 0) current = id;
+        }
+        setActive(current);
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      };
+    }, []);
+
+    useEffect(() => {
+      if (!openProject) return;
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const onKey = (e) => { if (e.key === "Escape") setOpenProject(null); };
+      document.addEventListener("keydown", onKey);
+      const raf = requestAnimationFrame(() => closeBtnRef.current?.focus());
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        document.removeEventListener("keydown", onKey);
+        cancelAnimationFrame(raf);
+        lastFocusRef.current?.focus();
+      };
+    }, [openProject]);
+
+    // 해시 → 모달 동기화 (마운트 시 + popstate + hashchange)
+    useEffect(() => {
+      const parseHash = () => {
+        const m = location.hash.match(/^#project-0([1-8])$/);
+        if (m) {
+          const idx = Number(m[1]) - 1;
+          const p = PROJECTS[idx];
+          if (p) { setOpenProject(p); return; }
+        }
+        setOpenProject(null);
+      };
+      parseHash();
+      window.addEventListener("popstate", parseHash);
+      window.addEventListener("hashchange", parseHash);
+      return () => {
+        window.removeEventListener("popstate", parseHash);
+        window.removeEventListener("hashchange", parseHash);
+      };
+    }, []);
+
+    // 모달 → 해시 반영
+    useEffect(() => {
+      if (openProject) {
+        const idx = PROJECTS.indexOf(openProject) + 1;
+        const target = `#project-${String(idx).padStart(2, "0")}`;
+        if (location.hash === target) return;
+        const method = location.hash ? "replaceState" : "pushState";
+        history[method](null, "", target);
+      } else {
+        if (/^#project-/.test(location.hash)) {
+          history.replaceState(null, "", location.pathname + location.search);
+        }
+      }
+    }, [openProject]);
+
+    return (
+      <>
+      <div id="top" />
+      <Header active={active} name={t.name} />
+      <main>
+        <Hero tagline={t.tagline} subline={t.subline} name={t.name} />
+        <Projects onOpen={(p, el) => { lastFocusRef.current = el; setOpenProject(p); }} />
+        <Experience />
+      </main>
+      <Footer name={t.name} />
+      <ContactFab />
+      <ProjectModal project={openProject} onClose={() => setOpenProject(null)} closeBtnRef={closeBtnRef} />
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Theme" />
+        <TweakRadio label="Color mode" value={t.theme}
+          options={[{ value: "light", label: "Light" }, { value: "dark", label: "Dark" }]}
+          onChange={(v) => setTweak("theme", v)} />
+        <TweakSelect label="Background" value={t.bgTone}
+          options={[
+          { value: "lilac", label: "Lilac · 은은한 연보라" },
+          { value: "lavender", label: "Lavender · 더 진한 보라" },
+          { value: "plum", label: "Plum · 깊은 자줏빛 (다크)" },
+          { value: "pure", label: "Pure · 순백 + 포인트" }]
+          }
+          onChange={(v) => setTweak("bgTone", v)} />
+        <TweakColor label="Key color" value={t.popColor}
+          onChange={(v) => setTweak("popColor", v)} />
+
+        <TweakSection label="Layout" />
+        <TweakRadio label="Density" value={t.density}
+          options={[{ value: "dense", label: "Dense" }, { value: "regular", label: "Regular" }, { value: "airy", label: "Airy" }]}
+          onChange={(v) => setTweak("density", v)} />
+        <TweakRadio label="Hero type" value={t.heroStyle}
+          options={[{ value: "sans", label: "Sans" }, { value: "serif", label: "Serif" }, { value: "display", label: "Bold" }, { value: "mono", label: "Mono" }]}
+          onChange={(v) => setTweak("heroStyle", v)} />
+
+        <TweakSection label="Copy" />
+        <TweakText label="Name" value={t.name} onChange={(v) => setTweak("name", v)} />
+        <TweakText label="Tagline" value={t.tagline} onChange={(v) => setTweak("tagline", v)} />
+      </TweaksPanel>
+    </>);
+
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+})();
+</script>
+</body>
+</html>

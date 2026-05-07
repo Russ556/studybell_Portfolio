@@ -1,0 +1,7 @@
+.claude/
+.design-review/
+scraps/
+image.png
+*.log
+.DS_Store
+Thumbs.db
