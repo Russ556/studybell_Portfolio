@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+KR:wght@400;500;600;700&family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
@@ -65,7 +65,7 @@
     --line-strong:#dcdcdc;
     --card:#fafafa;
   }
-  [data-theme="dark"]{
+  body[data-theme="dark"]{
     --bg:#0a0612;
     --fg:#f5edff;
     --fg-2:#d0c2e8;
@@ -76,6 +76,9 @@
     --card:#120824;
     --accent:#f5edff;
     --accent-fg:#0a0612;
+  }
+  body[data-theme="dark"][data-bg="lilac"]{
+    --bg:#0a0612; --line:#1d0f30; --line-strong:#2c1846; --card:#120824;
   }
   body[data-theme="dark"][data-bg="lavender"]{
     --bg:#0f0820; --line:#22153a; --line-strong:#32214d; --card:#170c2c;
@@ -408,14 +411,17 @@
   .filter-bar{ display:flex; align-items:center; gap:6px; margin-bottom:24px; }
   .filter-chip{
     appearance:none; border:1px solid var(--line-strong); background:transparent;
-    color:var(--fg-2); font-size:12px; font-weight:500;
-    padding:6px 12px; border-radius:999px; cursor:pointer;
+    color:var(--fg-2); font-size:13px; font-weight:600;
+    padding:6px 14px; border-radius:999px; cursor:pointer;
     transition:all .15s ease;
-    font-family:'JetBrains Mono',monospace;
+    font-family:'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,sans-serif;
+    letter-spacing:-0.01em;
+    font-feature-settings:"tnum";
   }
+  .filter-chip > span{ font-weight:500; }
   .filter-chip:hover{ color:var(--pop); border-color:var(--pop); }
   .filter-chip.on{ background:var(--pop); color:#fff; border-color:var(--pop); }
-  .filter-count{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3); }
+  .filter-count{ margin-left:auto; font-family:'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,sans-serif; font-size:12px; font-weight:500; color:var(--fg-3); font-feature-settings:"tnum"; letter-spacing:-0.01em; }
 
   .timeline{ display:flex; flex-direction:column; }
   .tl-item{
@@ -1304,6 +1310,10 @@
     content:""; position:absolute; left:0; top:13px;
     width:12px; height:1px; background:var(--pop);
   }
+  .ms-out-metrics-bullets-num{
+    margin-left:6px;
+    white-space:nowrap;
+  }
 
   /* Outcome — 결과 이미지 4개 그리드 */
   .ms-out-images{ margin:0 0 18px; padding:0; }
@@ -1323,7 +1333,7 @@
   .ms-out-images-cell img{
     display:block;
     width:100%; height:100%;
-    object-fit:contain;
+    object-fit:cover;
     image-rendering:-webkit-optimize-contrast;
     image-rendering:crisp-edges;
   }
@@ -1497,6 +1507,216 @@
     display:flex; justify-content:space-between; align-items:center;
     padding-top:24px; border-top:1px solid var(--line);
     font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-3);
+  }
+
+  /* ────────── CLOSING SECTION (poem layout, soft serif) ────────── */
+  .closing{
+    position:relative;
+    overflow:hidden;
+    padding:140px 0 180px;
+    border-top:1px solid var(--line);
+  }
+  .closing::before{
+    content:""; position:absolute; left:-220px; bottom:-220px;
+    width:600px; height:600px; border-radius:50%;
+    background:radial-gradient(circle, color-mix(in oklch, var(--pop) 14%, transparent) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .closing > .container{ position:relative; }
+  .closing-grid{
+    display:grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap:80px;
+    align-items:stretch;
+  }
+  .closing-photos{
+    position:relative;
+    height:100%;
+    min-height:560px;
+  }
+  .closing-photo{
+    position:absolute;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    display:grid; place-items:center;
+    color:var(--fg-3);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    overflow:hidden;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:600;
+    overflow:hidden;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .closing-photo:hover{
+    border-color:var(--pop);
+    transform:translateY(-2px);
+    box-shadow:0 18px 40px -28px color-mix(in oklch, var(--pop) 60%, transparent);
+    z-index:3;
+  }
+  .closing-photo--tl{
+    top:0; left:0;
+    width:78%; height:65%;
+    z-index:1;
+  }
+  .closing-photo img{
+    display:block;
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .closing-photo--tl img{
+    object-fit:contain;
+    background:var(--card);
+  }
+  .closing-photo--r{
+    bottom:0; right:0;
+    width:58%; height:52%;
+    z-index:2;
+    box-shadow:0 30px 70px -32px color-mix(in oklch, var(--pop) 50%, transparent), 0 0 0 1px var(--bg);
+  }
+  .closing-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    color:var(--pop); text-transform:uppercase; letter-spacing:0.18em;
+    margin:0 0 56px; font-weight:600;
+  }
+  .closing-main{
+    font-family:'Instrument Serif', serif;
+    font-weight:400;
+    font-size:clamp(34px, 3.7vw, 52px);
+    line-height:1.22;
+    letter-spacing:-0.01em;
+    margin:0 0 64px;
+    color:var(--fg);
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  .closing-main em{
+    font-family:'Instrument Serif',serif;
+    font-style:italic; font-weight:400;
+    color:var(--pop);
+    padding-right:0.06em;
+  }
+  .closing-stanza{
+    font-family:'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,sans-serif;
+    font-weight:300;
+    font-size:clamp(19px, 1.5vw, 22px);
+    line-height:1.9;
+    color:var(--fg-2);
+    margin:0 0 48px;
+    word-break:keep-all; overflow-wrap:break-word;
+    letter-spacing:-0.005em;
+  }
+  .closing-end-stress{
+    font-style:normal;
+    font-weight:600;
+    color:var(--fg);
+    background: linear-gradient(to top,
+      color-mix(in oklch, var(--pop) 28%, transparent) 28%,
+      transparent 28%);
+    padding:0 0.06em;
+  }
+  .closing-end{
+    font-family:'Noto Serif KR', 'Pretendard Variable','Pretendard', ui-serif, serif;
+    font-size:22px; font-weight:500;
+    line-height:1.85;
+    color:var(--fg);
+    margin:0;
+    letter-spacing:-0.01em;
+    word-break:keep-all; overflow-wrap:break-word;
+  }
+  .closing-hero-mark{
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(200px, 22vw, 340px);
+    line-height: 0.82;
+    color: color-mix(in oklch, var(--pop) 22%, transparent);
+    letter-spacing: -0.04em;
+    margin: -16px 0 -0.18em -0.04em;
+    pointer-events: none;
+    user-select: none;
+    display: block;
+  }
+  .closing-4w{
+    list-style: none;
+    margin: 0 0 88px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .closing-4w-item{
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    transition: transform .35s ease;
+  }
+  .closing-4w-item:nth-child(1){ padding-left: 0; }
+  .closing-4w-item:nth-child(2){ padding-left: 28px; }
+  .closing-4w-item:nth-child(3){ padding-left: 56px; }
+  .closing-4w-item:nth-child(4){ padding-left: 84px; }
+  .closing-4w-item:hover{ transform: translateX(4px); }
+  .closing-4w-key{
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--pop);
+    flex-shrink: 0;
+    min-width: 70px;
+    letter-spacing: 0;
+  }
+  .closing-4w-dash{
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    color: var(--fg-3);
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .closing-4w-q{
+    font-family: 'Pretendard Variable','Pretendard',ui-sans-serif,system-ui,sans-serif;
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--fg-2);
+    letter-spacing: -0.005em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    margin: 0;
+  }
+
+  @media (max-width: 960px){
+    .closing-grid{ grid-template-columns: 1fr; gap:64px; }
+    .closing-photos{
+      position:static;
+      display:flex; flex-direction:column;
+      gap:12px;
+      height:auto; min-height:0;
+    }
+    .closing-photo{
+      position:static;
+      width:100%; height:auto;
+      aspect-ratio: 16 / 10;
+      top:auto; left:auto; right:auto; bottom:auto;
+    }
+  }
+  @media (max-width: 720px){
+    .closing{ padding:96px 0 120px; }
+    .closing-eyebrow{ margin-bottom:40px; }
+    .closing-main{ margin-bottom:40px; }
+    .closing-stanza{ margin-bottom:36px; }
+    .closing-end{ margin-top:0; }
+    .closing-hero-mark{ font-size: clamp(160px, 36vw, 220px); margin-top: -8px; }
+    .closing-4w{ gap: 18px; margin-bottom: 64px; }
+    .closing-4w-item:nth-child(2){ padding-left: 18px; }
+    .closing-4w-item:nth-child(3){ padding-left: 36px; }
+    .closing-4w-item:nth-child(4){ padding-left: 54px; }
+    .closing-4w-key{ font-size: 24px; min-width: 58px; }
+    .closing-4w-q{ font-size: 15.5px; }
   }
 
   @media (max-width: 960px){
@@ -2003,6 +2223,7 @@
                  "도구 기획부터 제작·실 사용까지 전 과정 주도"],
           skills: ["문제 해결 지향", "자기주도적 실행력", "바이브 코딩", "업무 자동화 설계"],
           techStack: ["Claude Code", "Codex", "Antigravity", "Vercel", "Google Calendar · Sheets API", "Supabase"],
+          metricsStyle: "bullets",
           metrics: [
             { label: "광고리포트 보고 시간 단축", value: "20분 → 5분" }
           ],
@@ -2328,37 +2549,57 @@
                             </div>
                           </div>
                         )}
-                        {sx.outcome.metrics && (
-                          <table className="ms-out-table">
-                            <thead>
-                              <tr>
-                                <th scope="col">성과지표</th>
-                                <th scope="col">수치</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {sx.outcome.metrics.map((m) => (
-                                <tr key={m.label}>
-                                  <td>{m.label}</td>
-                                  <td className="ms-out-table-num">{m.value}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        )}
-                        {sx.outcome.notes && (
-                          sx.outcome.notesLabel ? (
+                        {sx.outcome.metricsStyle === "bullets" ? (
+                          (sx.outcome.metrics || sx.outcome.notes) && (
                             <div className="ms-out-notes-block">
-                              <div className="ms-tools-label">{sx.outcome.notesLabel}</div>
+                              <div className="ms-tools-label">성과지표</div>
                               <ul className="ms-out-notes">
-                                {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                                {sx.outcome.metrics && sx.outcome.metrics.map((m) => (
+                                  <li key={m.label}>
+                                    {m.label} <span className="ms-out-metrics-bullets-num">({m.value})</span>
+                                  </li>
+                                ))}
+                                {sx.outcome.notes && sx.outcome.notes.map((n) => (
+                                  <li key={n}>{n}</li>
+                                ))}
                               </ul>
                             </div>
-                          ) : (
-                            <ul className="ms-out-notes">
-                              {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
-                            </ul>
                           )
+                        ) : (
+                          <>
+                            {sx.outcome.metrics && (
+                              <table className="ms-out-table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">성과지표</th>
+                                    <th scope="col">수치</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {sx.outcome.metrics.map((m) => (
+                                    <tr key={m.label}>
+                                      <td>{m.label}</td>
+                                      <td className="ms-out-table-num">{m.value}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            )}
+                            {sx.outcome.notes && (
+                              sx.outcome.notesLabel ? (
+                                <div className="ms-out-notes-block">
+                                  <div className="ms-tools-label">{sx.outcome.notesLabel}</div>
+                                  <ul className="ms-out-notes">
+                                    {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                                  </ul>
+                                </div>
+                              ) : (
+                                <ul className="ms-out-notes">
+                                  {sx.outcome.notes.map((n) => <li key={n}>{n}</li>)}
+                                </ul>
+                              )
+                            )}
+                          </>
                         )}
                       </div>
                     </section>
@@ -2545,7 +2786,7 @@
   }
 
   function Header({ active, name }) {
-    const items = [{ id: "about", label: "About" }, { id: "projects", label: "Projects" }, { id: "experience", label: "Experience" }];
+    const items = [{ id: "about", label: "About" }, { id: "projects", label: "Projects" }, { id: "experience", label: "Experience" }, { id: "identity", label: "Identity" }];
     return (
       <header className="hdr">
       <div className="hdr-inner">
@@ -2774,6 +3015,59 @@
 
   }
 
+  function Closing() {
+    return (
+      <section id="identity" className="closing">
+      <div className="container">
+        <div className="closing-grid">
+          <div className="closing-left">
+            <div className="closing-eyebrow">Identity</div>
+            <div className="closing-hero-mark" aria-hidden="true">?</div>
+            <h2 className="closing-main">
+              저는 변화를 만드는<br />
+              <em>변화 촉진자</em>입니다.
+            </h2>
+            <ol className="closing-4w">
+              <li className="closing-4w-item">
+                <span className="closing-4w-key">Why</span>
+                <span className="closing-4w-dash">—</span>
+                <p className="closing-4w-q">왜 이 기획이 필요한가?</p>
+              </li>
+              <li className="closing-4w-item">
+                <span className="closing-4w-key">Who</span>
+                <span className="closing-4w-dash">—</span>
+                <p className="closing-4w-q">수용자는 누구이며, 어떤 사람들인가?</p>
+              </li>
+              <li className="closing-4w-item">
+                <span className="closing-4w-key">What</span>
+                <span className="closing-4w-dash">—</span>
+                <p className="closing-4w-q">그들에게 무엇을 전달할 것인가?</p>
+              </li>
+              <li className="closing-4w-item">
+                <span className="closing-4w-key">How</span>
+                <span className="closing-4w-dash">—</span>
+                <p className="closing-4w-q">어떻게 가장 효과적으로 전달할 것인가?</p>
+              </li>
+            </ol>
+            <p className="closing-end">
+              물음표(?)로 시작하여<br />
+              조직에, 사람에, <em className="closing-end-stress">변화</em>를 만들어내겠습니다.
+            </p>
+          </div>
+          <div className="closing-photos">
+            <div className="closing-photo closing-photo--tl">
+              <img src="프로젝트 이미지/마지막/ChatGPT Image 2026년 5월 10일 오전 12_07_26.png?v=3" alt="" />
+            </div>
+            <div className="closing-photo closing-photo--r">
+              <img src="프로젝트 이미지/마지막/ChatGPT Image 2026년 5월 10일 오전 12_20_21.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+  }
+
   function Footer({ name }) {
     return (
       <footer>
@@ -2800,7 +3094,7 @@
     }, [t]);
 
     useEffect(() => {
-      const ids = ["about", "projects", "experience"];
+      const ids = ["about", "projects", "experience", "identity"];
       const onScroll = () => {
         const triggerY = 120; // header height + a bit
         let current = ids[0];
@@ -2879,6 +3173,7 @@
         <Hero tagline={t.tagline} subline={t.subline} name={t.name} />
         <Projects onOpen={(p, el) => { lastFocusRef.current = el; setOpenProject(p); }} />
         <Experience />
+        <Closing />
       </main>
       <Footer name={t.name} />
       <ContactFab />
