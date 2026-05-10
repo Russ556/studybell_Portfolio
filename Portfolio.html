@@ -247,6 +247,8 @@
     color:var(--fg);
   }
   .hero h1 .ln{ display:block; }
+  .hero h1 .ln-kim{ font-size:90px; }
+  .hero h1 .ln-hak{ font-size:90px; max-width:100%; }
   .hero h1 em{
     font-family:'Playfair Display',serif; font-style:italic; font-weight:700;
     color:var(--pop);
@@ -1728,6 +1730,171 @@
     .foot-grid{ grid-template-columns:1fr 1fr; }
     .nav{ display:none; }
   }
+
+  /* ────────── MOBILE (640px↓) ────────── */
+  @media (max-width: 640px){
+    :root{ --pad:20px; --section-gap:80px; }
+
+    html, body{ overflow-x:hidden; }
+    body{ word-break:keep-all; overflow-wrap:break-word; }
+
+    /* HERO */
+    .hero{ padding-top:48px; padding-bottom:72px; }
+    .hero::before{ width:360px; height:360px; right:-160px; top:-160px; }
+    .hero-grid{ gap:32px; min-width:0; }
+    .hero-left, .hero-right{ min-width:0; }
+    .hero h1{
+      font-size:clamp(36px, 11vw, 56px);
+      line-height:1.0;
+      letter-spacing:-0.02em;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .hero h1 .ln-kim,
+    .hero h1 .ln-hak{
+      font-size:clamp(40px, 13vw, 64px);
+      width:auto; max-width:100%;
+    }
+    .hero-role{ font-size:17px; margin-bottom:20px; }
+    .hero-eyebrow{ margin-bottom:16px; font-size:10px; letter-spacing:0.15em; }
+    .hero-quotes p{
+      font-size:13px; line-height:1.55;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .hero-photo{ aspect-ratio: 4 / 3; }
+
+    /* HERO STATS — 3컬럼 → 1컬럼 (한글 라벨 단어 단위 wrap) */
+    .hero-stats{ grid-template-columns:1fr; gap:12px; }
+    .hero-stat{ padding:18px 20px; flex-direction:row; align-items:center; gap:16px; flex-wrap:wrap; }
+    .hero-stat-num{ font-size:34px; flex:0 0 auto; }
+    .hero-stat-num .unit{ font-size:18px; }
+    .hero-stat-label{
+      font-size:14px; margin-top:0; flex:1 1 auto; min-width:0;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .hero-stat-desc{
+      font-size:12px; flex-basis:100%; margin-top:4px;
+      white-space:normal;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+
+    .hero-tags-grid{ gap:5px; }
+    .hero-tag{ font-size:11.5px; padding:5px 10px; }
+
+    .hero-contact{ padding-top:18px; gap:12px; }
+    .hero-contact-row{ font-size:13px; gap:12px; }
+
+    /* SECTION HEADERS */
+    .section-head{
+      gap:14px; padding-bottom:32px; margin-bottom:32px;
+    }
+    .section-title{
+      font-size:clamp(28px, 7.6vw, 36px);
+      line-height:1.15;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .section-desc{ font-size:14.5px; line-height:1.6; max-width:none; }
+
+    /* FILTER BAR — 한글자씩 세로로 깨지던 문제 해결 */
+    .filter-bar{
+      flex-wrap:wrap; gap:6px; row-gap:8px;
+      margin-bottom:20px;
+    }
+    .filter-chip{
+      flex:0 0 auto; font-size:12px; padding:5px 10px;
+      white-space:nowrap;
+    }
+    .filter-count{
+      flex-basis:100%; margin-left:0;
+      text-align:right; font-size:11.5px;
+    }
+
+    /* TIMELINE — 날짜를 위로 올리고 본문은 풀폭 */
+    .tl-item{
+      grid-template-columns:1fr;
+      gap:8px; padding:18px 4px;
+    }
+    .tl-date{
+      font-size:11px; padding-top:0;
+      letter-spacing:0;
+    }
+    .tl-title{
+      font-size:16px; line-height:1.35;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .tl-org{ font-size:13px; }
+    .tl-meta{
+      grid-column:1; flex-direction:row; flex-wrap:wrap;
+      gap:6px; margin-top:2px;
+    }
+    .tl-cat{ font-size:10px; padding:3px 7px; }
+    .tl-expand{ grid-column:1; }
+    .tl-expand p, .tl-expand ul{ font-size:13.5px; line-height:1.6; }
+
+    /* PROJECT CARDS */
+    .proj-body{ padding:18px 18px 20px; gap:12px; }
+    .proj-title{
+      font-size:18px; line-height:1.3;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .proj-desc{
+      font-size:13.5px; line-height:1.55;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+
+    /* FOOTER */
+    footer{ margin-top:96px; padding:40px 0 56px; }
+    .foot-grid{ grid-template-columns:1fr; gap:32px; margin-bottom:40px; }
+    .foot-cta{
+      font-size:clamp(26px, 7vw, 34px); line-height:1.2;
+      word-break:keep-all; overflow-wrap:break-word;
+    }
+    .foot-bottom{ flex-direction:column; gap:8px; align-items:flex-start; }
+
+    /* CLOSING */
+    .closing{ padding:80px 0 96px; }
+    .closing-photos{ min-height:0; }
+    .closing-hero-mark{
+      font-size:clamp(120px, 30vw, 180px);
+      margin: -8px 0 -0.18em -0.04em;
+    }
+    .closing-main{
+      font-size:clamp(26px, 7.6vw, 36px);
+      line-height:1.25; margin-bottom:32px;
+    }
+    .closing-stanza{
+      font-size:16px; line-height:1.85; margin-bottom:28px;
+    }
+    .closing-end{ font-size:17px; line-height:1.8; }
+    .closing-4w{ gap:14px; margin-bottom:48px; }
+    .closing-4w-item:nth-child(1){ padding-left:0; }
+    .closing-4w-item:nth-child(2){ padding-left:12px; }
+    .closing-4w-item:nth-child(3){ padding-left:24px; }
+    .closing-4w-item:nth-child(4){ padding-left:36px; }
+    .closing-4w-key{ font-size:22px; min-width:54px; }
+    .closing-4w-q{ font-size:14.5px; line-height:1.55; }
+
+    /* FAB — 컨텐츠 하단 여백 확보로 가림 방지 */
+    .fab-wrap{ right:16px; bottom:16px; }
+    .fab-btn{ width:52px; height:52px; }
+    .fab-card{ width:min(calc(100vw - 32px), 320px); padding:18px; }
+    body{ padding-bottom:84px; }
+
+    /* HEADER */
+    .hdr-inner{ padding:0 16px; gap:12px; }
+    .resume-btn{ height:30px; padding:0 10px; font-size:12px; }
+    .hdr-meta{ display:none; }
+  }
+
+  /* ────────── EXTRA SMALL (380px↓) ────────── */
+  @media (max-width: 380px){
+    :root{ --pad:16px; }
+    .hero h1{ font-size:clamp(32px, 11vw, 42px); }
+    .hero h1 .ln-kim,
+    .hero h1 .ln-hak{ font-size:clamp(36px, 13vw, 50px); }
+    .hero-stat-num{ font-size:30px; }
+    .section-title{ font-size:26px; }
+    .closing-hero-mark{ font-size:clamp(100px, 28vw, 140px); }
+  }
 </style>
 </head>
 <body data-theme="light" data-bg="lilac" data-density="regular" data-hero="sans">
@@ -2811,8 +2978,8 @@
           <div className="hero-left">
             <div className="hero-eyebrow">PROFILE</div>
             <h1>
-              <span className="ln" style={{ fontSize: "90px" }}>KIM</span>
-              <span className="ln" style={{ width: "470px", fontSize: "90px" }}>HAK JONG</span>
+              <span className="ln ln-kim">KIM</span>
+              <span className="ln ln-hak">HAK JONG</span>
             </h1>
             <p className="hero-role">{CONTACT.role}</p>
             <div className="hero-quotes">
